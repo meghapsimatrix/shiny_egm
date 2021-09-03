@@ -4,6 +4,9 @@ library(ggplot2)
 library(readxl)
 library(janitor)
 library(readr)
+library(knitr)
+library(kableExtra)
+library(plotly)
 
 
 server <- 
@@ -135,7 +138,7 @@ server <-
     })
     
     
-    output$egmPlot <- renderPlot({
+    output$egmPlot <- renderPlotly({
       
       dat <- datClean()
       
@@ -144,9 +147,30 @@ server <-
         summarize(n_studies = n_distinct(study), .groups = "drop")
       
       
-      ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
+      p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
         geom_point(color = "dark blue") + 
+        labs(x = "", y = "") +
+        scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
         theme_minimal()
+      
+      ggplotly(p)
+      
+    })
+    
+    output$meta <- renderText({
+      
+      dat <- datClean()
+      
+      dat <- dat %>%
+        group_by(factor_1, factor_2) %>%
+        group_modify(~ tidy_meta(.x)) %>%
+        kable(digits = 3) %>%
+        kable_styling(
+          font_size = 15,
+          bootstrap_options = c("striped", "hover", "condensed")
+        )
+        
+
       
     })
 

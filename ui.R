@@ -67,7 +67,10 @@ ui <- fluidPage(
            dataTableOutput("contents")),
   
   tabPanel("Evidence Gap Map",
-           plotOutput("egmPlot")),
+           plotlyOutput("egmPlot")),
+  
+  tabPanel("Meta Analysis Results",
+           htmlOutput("meta")),
   
   tabPanel("R Syntax")
   
