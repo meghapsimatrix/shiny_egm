@@ -72,7 +72,10 @@ ui <- fluidPage(
   tabPanel("Meta Analysis Results",
            htmlOutput("meta")),
   
-  tabPanel("R Syntax")
+  tabPanel("R Syntax",
+           rclipboardSetup(),
+           uiOutput("clip"),
+           verbatimTextOutput("syntax"))
   
 )
 )  

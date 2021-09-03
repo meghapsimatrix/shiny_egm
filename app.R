@@ -6,11 +6,13 @@ library(knitr)
 library(tidyverse)
 library(kableExtra)
 library(plotly)
+library(rclipboard)
 
 source("ui.R")
 source("server.R")
 source("extra/example.R")
 source("tidy_meta.R")
-
+options(knitr.kable.NA = '')
 
 shinyApp(ui = ui, server = server)
+

@@ -8,6 +8,9 @@ library(knitr)
 library(kableExtra)
 library(plotly)
 
+source("tidy_meta.R")
+options(knitr.kable.NA = '')
+
 
 server <- 
   shinyServer(function(input, output, session) {
@@ -161,7 +164,7 @@ server <-
       
       dat <- datClean()
       
-      dat <- dat %>%
+      dat %>%
         group_by(factor_1, factor_2) %>%
         group_modify(~ tidy_meta(.x)) %>%
         kable(digits = 3) %>%
@@ -171,6 +174,14 @@ server <-
         )
         
 
+      
+    })
+    
+    output$syntax <- renderPrint({
+     
+      "syntax"
+
+      
       
     })
 
