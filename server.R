@@ -85,6 +85,8 @@ server <-
     })
     
     
+    # mapping
+    
     output$esMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
@@ -177,12 +179,14 @@ server <-
       
     })
     
+    
     output$syntax <- renderPrint({
-     
-      "syntax"
-
-      
-      
+      "R syntax"
     })
+    
+    output$clip <- renderUI({
+      rclipButton("clipbtn", "Copy", "R syntax", icon("clipboard"))
+    })
+    
 
   })    
