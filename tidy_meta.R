@@ -26,7 +26,9 @@ tidy_meta <- function(dat){
     
   }
   
-  output <- bind_cols(res, summary)
+  output <- bind_cols(res, summary) %>%
+    mutate_if(is.numeric, round, 3) %>%
+    mutate(text_res = paste0(beta, " 95% CI[", CI_L, ", ", CI_U, "]"))
   
   return(output)
 }
