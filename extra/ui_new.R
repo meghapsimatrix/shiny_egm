@@ -1,3 +1,23 @@
+
+column(8,
+       conditionalPanel(
+         
+         condition = "input.summary_raw == 'sumdat' & input.dat_type == 'dat' || input.summary_raw == 'sumdat' & input.dat_type == 'xlsx'",
+         column(12, br()),
+         strong("Please specify the first factor for the EGM."),
+         uiOutput("xMapping"),
+         column(12, br()),
+         strong("Please specify the second factor for the EGM."),
+         uiOutput("yMapping"),
+         column(12, br()),
+         strong("Please specify the variable in the dataset containing the number of effect sizes per cell."),
+         uiOutput("nstudyMapping"),
+         
+       )
+       
+
+
+
 source("extra/example.R")
 
 ui <- fluidPage(

@@ -13,18 +13,28 @@ ui <- fluidPage(
   
   tabPanel("Load Data",
            br(),
+           
            fluidRow(
              column(4,
+                    
+                    radioButtons('summary_raw',
+                                 'Do you want to use summary level data or effect size level data?',
+                                 c("Use effect size level data" = "esdat",
+                                   "Use summary level data" = "sumdat")),
+                    
                     radioButtons('dat_type', 
                                  'What data do you want to use?',
                                  c("Use an example" = "example",
                                    "Upload data from a .csv or .txt file" = "dat",
                                    "Upload data from a .xlsx file" = "xlsx")),
+                    
+                    
                     conditionalPanel(
                       condition = "input.dat_type == 'example'",
                       selectInput("example", label = "Choose an example", 
                                   choices = exampleChoices)
                     ),
+                    
                     conditionalPanel(
                       condition = "input.dat_type == 'dat'",
                       fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv', '.txt')),
@@ -32,36 +42,56 @@ ui <- fluidPage(
                       radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
                       radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
                     ),
+                    
+                    
                     conditionalPanel(
                       condition = "input.dat_type == 'xlsx'",
                       fileInput('xlsx', 'Upload a .xlsx file', accept = c('.xlsx')),
                       checkboxInput('col_names', 'File has a header?', TRUE),
                       selectInput("inSelect", "Select a sheet", "")
                     ),
+                    
+                    
+                    
              ),
+             
+             
+             
              column(8,
+                    
                     conditionalPanel(
-                      column(12, br()),
-                      strong("Please specify the variable in the dataset containing the effect sizes."),
+                      
+                      condition = "input.summary_raw == 'esdat' & input.dat_type == 'dat' || input.summary_raw == 'esdat' & input.dat_type == 'xlsx'",
+                      
                       uiOutput("esMapping"),
-                      column(12, br()),
-                      strong("Please specify the variable in the dataset containting the variance of the effect sizes."),
+                      
                       uiOutput("varMapping"),
-                      column(12, br()),
-                      strong("Please specify the variable with the study identifier."),
+                      
                       uiOutput("studyMapping"),
-                      column(12, br()),
-                      strong("Please specify the variable with the effect size identifier."),
+                      
                       uiOutput("esidMapping"),
-                      column(12, br()),
-                      strong("Please specify the first factor for the EGM."),
+
                       uiOutput("xMapping"),
-                      column(12, br()),
-                      strong("Please specify the second factor for the EGM."),
-                      uiOutput("yMapping"),
+
+                      uiOutput("yMapping")
                       
                     ),
-             )
+                    
+                    conditionalPanel(
+
+                      condition = "input.summary_raw == 'sumdat' & input.dat_type == 'dat' || input.summary_raw == 'sumdat' & input.dat_type == 'xlsx'",
+                      
+                      uiOutput("nstudyMapping"),
+                      
+                      uiOutput("xsumMapping"),
+                      
+                      uiOutput("ysumMapping"),
+                      
+                      uiOutput("avesMapping")
+                    ),
+             ),
+      
+             
            ),
            fluidRow(br(),br(),br())
   ),
@@ -70,10 +100,22 @@ ui <- fluidPage(
            dataTableOutput("contents")),
   
   tabPanel("Evidence Gap Map",
-           plotlyOutput("egmPlot")),
+           
+           br(),
+           sidebarPanel("",
+                    selectInput("overlay", label = "What do you want to overlay on the dots?",
+                                choices = c("Number of Studies" = "nstudy", 
+                                            "Average Effect Size" = "aves", 
+                                            "Nothing" = "nothing"), 
+                                selected = "nothing")
+             ), 
+           mainPanel("",
+                    plotlyOutput("egmPlot")
+           
+             )
+           ),
   
-  tabPanel("Meta Analysis Results",
-           htmlOutput("meta")),
+
   
   tabPanel("R Syntax",
            rclipboardSetup(),

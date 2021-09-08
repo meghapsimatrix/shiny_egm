@@ -13,9 +13,20 @@ options(knitr.kable.NA = '')
 
 
 server <- 
+  
   shinyServer(function(input, output, session) {
     
     if (exists("dataset", where = environment(server))) if (!is.null(dataset)) {
+      
+      updateRadioButtons(
+        session, 
+        inputId = 'summary_raw', 
+        label = 'Do you want to use summary level data or effect size level data?',
+        choices = c("Use effect size level data" = "esdat",
+                    "Use summary level data" = "sumdat"),
+        selected = "esdat"
+      )
+      
       
       updateRadioButtons(
         session, 
@@ -28,6 +39,16 @@ server <-
         selected = "loaded"
       )
     }
+    
+    updateSelectInput(
+      session,
+      inputId = "overlay",
+      label = "What do you want to overlay on the dots?",
+      choices = c("Number of Studies" = "nstudy", 
+                  "Average Effect Size" = "aves", 
+                  "Nothing" = "nothing"), 
+      selected = "nothing"
+    )
     
     sheetname <- reactive({
       if (input$dat_type == "xlsx") {
@@ -48,7 +69,7 @@ server <-
     
     datFile <- reactive({ 
       
-      if (input$dat_type == "dat") {
+      if (input$summary_raw == "esdat" & input$dat_type == "dat" || input$summary_raw == "sumdat" & input$dat_type == "dat") {
         
         inFile <- input$dat
         
@@ -59,7 +80,7 @@ server <-
                    stringsAsFactors = FALSE) %>% 
           clean_names(case = "parsed")
         
-      } else if (input$dat_type == "xlsx") {
+      } else if (input$summary_raw == "esdat" & input$dat_type == "xlsx" || input$summary_raw == "sumdat" & input$dat_type == "xlsx") {
         
         inFile <- input$xlsx
         
@@ -81,57 +102,90 @@ server <-
     # Check that file is uploaded
     
     output$fileUploaded <- reactive({
+      
       return(!is.null(datFile()))
-    })
+    
+      })
     
     
-    # mapping
+
+    # es level data mapping ---------------------------------------------------
+
     
     output$esMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
-      selectInput("effectsize", label = "Effect Size", choices = var_names, selected = var_names[n_var])
+      selectInput("effectsize", label = "Effect Size: Please specify the variable in the dataset containing the effect sizes.", choices = var_names, selected = var_names[n_var])
     })
     
     output$varMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
-      selectInput("variance", label = "Variance", choices = var_names, selected = var_names[n_var])
+      selectInput("variance", label = "Variance: Please specify the variable in the dataset containting the variance of the effect sizes.", choices = var_names, selected = var_names[n_var])
     })
     
     output$studyMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
-      selectInput("studyid", label = "Study ID", choices = var_names, selected = var_names[n_var])
+      selectInput("studyid", label = "Study ID: Please specify the variable with the study identifier.", choices = var_names, selected = var_names[n_var])
     })
     
     output$esidMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
-      selectInput("esid", label = "Effect Size ID", choices = var_names, selected = var_names[n_var])
+      selectInput("esid", label = "Effect Size ID: Please specify the variable with the effect size identifier.", choices = var_names, selected = var_names[n_var])
     })
     
     output$xMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
-      selectInput("x", label = "Factor 1", choices = var_names, selected = var_names[n_var])
+      selectInput("x", label = "Factor 1: Please specify the first factor for the EGM.", choices = var_names, selected = var_names[n_var])
     })
     
     output$yMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
-      selectInput("y", label = "Factor 2", choices = var_names, selected = var_names[n_var])
+      selectInput("y", label = "Factor 2: Please specify the second factor for the EGM.", choices = var_names, selected = var_names[n_var])
     })
+    
+
+    # summary data mapping ----------------------------------------------------
     
     
     output$nstudyMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
-      selectInput("nstudy", label = "Number of Studies", choices = var_names, selected = var_names[n_var])
+      selectInput("nstudy", label = "Number of Studies: Please specify the variable containing the number of effect sizes per combination of factors.", choices = var_names, selected = var_names[n_var])
+    })
+    
+    output$xsumMapping <- renderUI({
+      var_names <- names(datFile())
+      n_var <- length(var_names)
+      selectInput("xsum", label = "Factor 1: Please specify the first factor for the EGM.", choices = var_names, selected = var_names[n_var])
+    })
+    
+    output$ysumMapping <- renderUI({
+      var_names <- names(datFile())
+      n_var <- length(var_names)
+      selectInput("ysum", label = "Factor 2: Please specify the second factor for the EGM.", choices = var_names, selected = var_names[n_var])
     })
     
     
+    output$avesMapping <- renderUI({
+      var_names <- names(datFile())
+      n_var <- length(var_names)
+      selectInput("aves", label = "Average effect size: Please specify variable containing the average effect size per combination of factors.", choices = var_names, selected = var_names[n_var])
+    })
+    
+    
+    
+
+    # clean the data ----------------------------------------------------------
+    
+    
     datClean <- reactive({
+      
+      if(input$summary_raw == "esdat"){
       
       es <- datFile()[,input$effectsize]
       var <- datFile()[,input$variance]
@@ -147,9 +201,36 @@ server <-
                         factor_1 = x, 
                         factor_2 = y)
       
+      dat <- 
+        dat %>%
+        group_by(factor_1, factor_2) %>%
+        group_modify(~ tidy_meta(.x)) %>%
+        ungroup()
+      
+      
+      
+      } else if(input$summary_raw == "sumdat"){
+        
+        x <- datFile()[,input$xsum]
+        y <- datFile()[,input$ysum]
+        n_studies <- datFile()[,input$nstudy]
+        avg_es <- datFile()[,input$aves]
+        
+        dat <- data.frame(factor_1 = x, 
+                          factor_2 = y,
+                          n_studies = n_studies,
+                          beta = avg_es)
+        
+      }
+      
       return(dat)
       
     })
+    
+    
+
+   # output ------------------------------------------------------------------
+    
     
     output$contents <- renderDataTable({
       
@@ -162,37 +243,30 @@ server <-
       
       dat <- datClean()
       
-      dat <- dat %>%
-        group_by(factor_1, factor_2) %>%
-        summarize(n_studies = n_distinct(study_id), .groups = "drop")
-      
       
       p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
-        geom_point(color = "dark blue") + 
+        geom_point(color = "skyblue") + 
         labs(x = "", y = "") +
         scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
         theme_minimal()
       
-      ggplotly(p)
+      if(input$overlay == "nstudy"){
+        
+        p <- p + geom_text(aes(label = as.character(n_studies), size =5))
+        
+      } else if(input$overlay == "aves"){
+        
+        p <- p + geom_text(aes(label = as.character(beta), size =5))
+        
+      }
+      
+      ggplotly(p, height = 800, width = 900)
       
     })
     
-    output$meta <- renderText({
-      
-      dat <- datClean()
-      
-      dat %>%
-        group_by(factor_1, factor_2) %>%
-        group_modify(~ tidy_meta(.x)) %>%
-        kable(digits = 3) %>%
-        kable_styling(
-          font_size = 15,
-          bootstrap_options = c("striped", "hover", "condensed")
-        )
-        
 
-      
-    })
+    
+
     
     
     output$syntax <- renderPrint({
