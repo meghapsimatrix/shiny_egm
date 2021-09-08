@@ -102,7 +102,13 @@ server <-
     output$studyMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
-      selectInput("study", label = "StudyID", choices = var_names, selected = var_names[n_var])
+      selectInput("studyid", label = "Study ID", choices = var_names, selected = var_names[n_var])
+    })
+    
+    output$esidMapping <- renderUI({
+      var_names <- names(datFile())
+      n_var <- length(var_names)
+      selectInput("esid", label = "Effect Size ID", choices = var_names, selected = var_names[n_var])
     })
     
     output$xMapping <- renderUI({
@@ -118,17 +124,26 @@ server <-
     })
     
     
+    output$nstudyMapping <- renderUI({
+      var_names <- names(datFile())
+      n_var <- length(var_names)
+      selectInput("nstudy", label = "Number of Studies", choices = var_names, selected = var_names[n_var])
+    })
+    
+    
     datClean <- reactive({
       
       es <- datFile()[,input$effectsize]
       var <- datFile()[,input$variance]
-      study <- datFile()[,input$study]
+      studyid <- datFile()[,input$studyid]
+      esid <- datFile()[,input$esid]
       x <- datFile()[,input$x]
       y <- datFile()[,input$y]
       
       dat <- data.frame(es = es,
                         var = var,
-                        study = study,
+                        study_id = studyid,
+                        es_id = esid,
                         factor_1 = x, 
                         factor_2 = y)
       
@@ -149,7 +164,7 @@ server <-
       
       dat <- dat %>%
         group_by(factor_1, factor_2) %>%
-        summarize(n_studies = n_distinct(study), .groups = "drop")
+        summarize(n_studies = n_distinct(study_id), .groups = "drop")
       
       
       p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 

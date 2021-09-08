@@ -7,6 +7,8 @@ library(tidyverse)
 library(kableExtra)
 library(plotly)
 library(rclipboard)
+library(metafor)
+library(clubSandwich)
 
 source("ui.R")
 source("server.R")

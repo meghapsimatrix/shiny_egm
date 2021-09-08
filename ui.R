@@ -51,14 +51,17 @@ ui <- fluidPage(
                       strong("Please specify the variable with the study identifier."),
                       uiOutput("studyMapping"),
                       column(12, br()),
+                      strong("Please specify the variable with the effect size identifier."),
+                      uiOutput("esidMapping"),
+                      column(12, br()),
                       strong("Please specify the first factor for the EGM."),
                       uiOutput("xMapping"),
                       column(12, br()),
                       strong("Please specify the second factor for the EGM."),
                       uiOutput("yMapping"),
-      
+                      
                     ),
-                    )
+             )
            ),
            fluidRow(br(),br(),br())
   ),
