@@ -368,9 +368,22 @@ server <-
     }
       
       p
-      #ggplotly(p, height = 800, width = 900)
+      
+   
       
     })
+    
+    output$downloadPlot <- downloadHandler(
+      
+      filename = function(){
+         "plot.png"
+        },
+      
+      
+      content = function(file){
+        file.copy("plot.png", file, overwrite = TRUE)
+      }
+    )
     
     
     # output$info <- renderTable({

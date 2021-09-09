@@ -114,7 +114,9 @@ ui <- fluidPage(
                                     selected = "nothing")
            ), 
            mainPanel("",
+                     downloadButton('downloadPlot', 'Download Plot'),
                      plotOutput("egmPlot", click = "plot_click")
+                     
                     # htmlOutput("info")
                      
            )
