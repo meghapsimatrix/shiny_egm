@@ -232,14 +232,14 @@ server <-
    # output ------------------------------------------------------------------
     
     
-    output$contents <- renderDataTable({
-      
-      DT::datatable(datClean())
-      
-    })
+    # output$contents <- renderDataTable({
+    #   
+    #   DT::datatable(datClean())
+    #   
+    # })
+    # 
     
-    
-    output$egmPlot <- renderPlotly({
+    output$egmPlot <- renderPlot({
       
       dat <- datClean()
       
@@ -248,7 +248,8 @@ server <-
         geom_point(color = "skyblue") + 
         labs(x = "", y = "") +
         scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
-        theme_minimal()
+        theme_minimal() + 
+        theme(legend.position = "none")
       
       if(input$overlay == "nstudy"){
         
@@ -260,7 +261,8 @@ server <-
         
       }
       
-      ggplotly(p, height = 800, width = 900)
+      p
+      #ggplotly(p, height = 800, width = 900)
       
     })
     

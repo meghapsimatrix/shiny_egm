@@ -110,7 +110,7 @@ ui <- fluidPage(
                                 selected = "nothing")
              ), 
            mainPanel("",
-                    plotlyOutput("egmPlot")
+                    plotOutput("egmPlot", hover = "plot_hover")
            
              )
            ),
