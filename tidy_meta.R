@@ -1,6 +1,7 @@
 library(robumeta)
 library(clubSandwich)
 library(tidyverse)
+library(metafor)
 
 tidy_meta <- function(dat, rho = 0.6){
   
