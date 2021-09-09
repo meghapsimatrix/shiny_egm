@@ -9,6 +9,7 @@ library(plotly)
 library(rclipboard)
 library(metafor)
 library(clubSandwich)
+library(ggstance)
 
 source("ui.R")
 source("server.R")

@@ -104,8 +104,8 @@ server <-
         
       } else if (input$dat_type == "example") {
         
-        dataset %>% 
-          clean_names(case = "parsed")
+
+        # add code to read example data
         
       } 
     })
@@ -146,7 +146,7 @@ server <-
     
     output$varMapping <- renderUI({
       var_names <- names(datFile())
-      selectInput("variance", label = "Variance: Please specify the variable in the dataset containting the variance of the effect sizes.", choices = var_names, selected = var_names[1])
+      selectInput("variance", label = "Variance or SE: Please specify the variable in the dataset containting the variance or the standard error of the effect sizes.", choices = var_names, selected = var_names[1])
     })
     
     output$studyMapping <- renderUI({
@@ -154,11 +154,11 @@ server <-
       selectInput("studyid", label = "Study ID: Please specify the variable with the study identifier.", choices = var_names, selected = var_names[1])
     })
     
-    output$esidMapping <- renderUI({
-      var_names <- names(datFile())
-      selectInput("esid", label = "Effect Size ID: Please specify the variable with the effect size identifier.", choices = var_names, selected = var_names[1])
-    })
-    
+    # output$esidMapping <- renderUI({
+    #   var_names <- names(datFile())
+    #   selectInput("esid", label = "Effect Size ID: Please specify the variable with the effect size identifier.", choices = var_names, selected = var_names[1])
+    # })
+    # 
 
     
 
@@ -206,7 +206,7 @@ server <-
       es <- datFile()[,input$effectsize]
       var <- datFile()[,input$variance]
       studyid <- datFile()[,input$studyid]
-      esid <- datFile()[,input$esid]
+      #sid <- datFile()[,input$esid]
       x <- datFile()[,input$x]
       y <- datFile()[,input$y]
       
@@ -221,7 +221,7 @@ server <-
         dat <- data.frame(es = es,
                           var = var,
                           study_id = studyid,
-                          es_id = esid,
+                        # es_id = esid,
                           factor_1 = x, 
                           factor_2 = y)
         
@@ -239,7 +239,7 @@ server <-
         dat <- data.frame(es = es,
                           var = var,
                           study_id = studyid,
-                          es_id = esid,
+                        # es_id = esid,
                           factor_1 = x, 
                           factor_2 = y,
                           factor_3 = z)
@@ -316,24 +316,69 @@ server <-
     })
 
     
-    output$egmPlot <- renderPlot({
+    output$egmPlot <- renderPlotly({
       
       dat <- datClean()
       
-      
-      p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
-        geom_point(color = "skyblue") + 
-        labs(x = "", y = "") +
-        scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
-        theme_minimal() + 
-        theme(legend.position = "none")
-      
-      
+      if(input$summary_raw == "esdat"){
+        
+        if(input$z == "None"){
+          
+          p <- ggplot(dat, aes(x = factor_1, y = factor_2, size =  n_studies)) + 
+            geom_point(color = "skyblue") + 
+            labs(x = "", y = "") +
+            scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+            theme_minimal() + 
+            theme(legend.position = "none")
+          
+          
+        } else{
+          
+          
+          p <- ggplot(dat, aes(x = factor_1, y = factor_2, size =  n_studies, color = factor_3)) + 
+            geom_point(position = ggstance::position_dodgev(height = 0.5)) +
+            labs(x = "", y = "", color = "") +
+            scale_size_identity() +
+            scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+            theme_minimal() +
+            theme(legend.position = "bottom")
+          
+        }
+        
+      } else if(input$summary_raw == "sumdat"){
+        
+        if(input$zsum == "None"){
+          
+          p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
+            geom_point(color = "skyblue") + 
+            labs(x = "", y = "") +
+            scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+            theme_minimal() + 
+            theme(legend.position = "none")
+          
+          
+        } else{
+          
+          
+          p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies, color = factor_3)) + 
+            geom_point(position = ggstance::position_dodgev(height = 0.5)) +
+            labs(x = "", y = "", color = "") +
+            scale_size_identity() +
+            scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+            theme_minimal() +
+            theme(legend.position = "bottom")
+          
+        
+        }
+      }
+        
+        
+
       
       if(input$overlay == "nstudy"){
         
         p <- p + 
-          geom_text(aes(label = as.character(n_studies), size = 4)) +
+          geom_text(aes(label = as.character(n_studies)), size = 2, color = "black") +
           labs(caption = "Number of studies per combination of factors are overlaid.")
         
       } 
@@ -343,7 +388,7 @@ server <-
         if(input$summary_raw == "esdat"){
         
         p <- p + 
-          geom_text(aes(label = as.character(beta), size = 4)) +
+          geom_text(aes(label = as.character(beta)), size = 2, color = "black") +
           labs(caption = "Average effect size per combination of factors are overlaid.")
         
         } 
@@ -352,7 +397,7 @@ server <-
          
          if(input$aves != "None"){
            
-           p <- p + geom_text(aes(label = as.character(beta), size = 4)) +
+           p <- p + geom_text(aes(label = as.character(beta)), size = 2, color = "black") +
              labs(caption = "Average effect size per combination of factors are overlaid.")
            
            
@@ -367,24 +412,24 @@ server <-
         
     }
       
-      p
+      ggplotly(p)
       
    
       
     })
     
-    output$downloadPlot <- downloadHandler(
-      
-      filename = function(){
-         "plot.png"
-        },
-      
-      
-      content = function(file){
-        file.copy("plot.png", file, overwrite = TRUE)
-      }
-    )
-    
+    # output$downloadPlot <- downloadHandler(
+    #   
+    #   filename = function(){
+    #      "plot.png"
+    #     },
+    #   
+    #   
+    #   content = function(file){
+    #     file.copy("plot.png", file, overwrite = TRUE)
+    #   }
+    # )
+    # 
     
     # output$info <- renderTable({
     #   

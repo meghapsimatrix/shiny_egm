@@ -72,9 +72,9 @@ ui <- fluidPage(
                       
                       uiOutput("varMapping"),
                       
-                      uiOutput("studyMapping"),
+                      uiOutput("studyMapping")
                       
-                      uiOutput("esidMapping")
+                      #uiOutput("esidMapping")
                       
                       
                     ),
@@ -114,8 +114,8 @@ ui <- fluidPage(
                                     selected = "nothing")
            ), 
            mainPanel("",
-                     downloadButton('downloadPlot', 'Download Plot'),
-                     plotOutput("egmPlot", click = "plot_click")
+                     #downloadButton('downloadPlot', 'Download Plot'),
+                     plotlyOutput("egmPlot")
                      
                     # htmlOutput("info")
                      

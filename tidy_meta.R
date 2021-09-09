@@ -7,7 +7,7 @@ tidy_meta <- function(dat, rho = 0.6){
   
   summary <- dat %>% 
     summarize(n_studies = n_distinct(study_id),
-              n_es = n_distinct(es_id))
+              n_es = n())
   
   m <- summary %>% pull(n_studies)
   
