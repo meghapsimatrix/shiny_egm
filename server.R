@@ -324,10 +324,11 @@ server <-
         
         if(input$z == "None"){
           
-          p <- ggplot(dat, aes(x = factor_1, y = factor_2, size =  n_studies)) + 
-            geom_point(color = "skyblue") + 
+          p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
+            geom_point(alpha = 0.8, color = "skyblue") + 
             labs(x = "", y = "") +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+            scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
             theme_minimal() + 
             theme(legend.position = "none")
           
@@ -335,11 +336,14 @@ server <-
         } else{
           
           
-          p <- ggplot(dat, aes(x = factor_1, y = factor_2, size =  n_studies, color = factor_3)) + 
-            geom_point(position = ggstance::position_dodgev(height = 0.5)) +
+          p <- ggplot(dat, aes(x = factor_1, y = factor_2, 
+                               size = n_studies, color = factor_3)) + 
+            geom_point(alpha = 0.8, 
+                       position = ggstance::position_dodgev(height = 0.8)) +
             labs(x = "", y = "", color = "") +
             scale_size_identity() +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+            scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
             theme_minimal() +
             theme(legend.position = "bottom")
           
@@ -350,9 +354,10 @@ server <-
         if(input$zsum == "None"){
           
           p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
-            geom_point(color = "skyblue") + 
+            geom_point(alpha = 0.8, color = "skyblue") + 
             labs(x = "", y = "") +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+            scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
             theme_minimal() + 
             theme(legend.position = "none")
           
@@ -360,11 +365,14 @@ server <-
         } else{
           
           
-          p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies, color = factor_3)) + 
-            geom_point(position = ggstance::position_dodgev(height = 0.5)) +
+          p <- ggplot(dat, aes(x = factor_1, y = factor_2, 
+                               size = n_studies, color = factor_3)) + 
+            geom_point(alpha = 0.8, 
+                       position = ggstance::position_dodgev(height = 0.8)) +
             labs(x = "", y = "", color = "") +
             scale_size_identity() +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+            scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
             theme_minimal() +
             theme(legend.position = "bottom")
           
@@ -377,30 +385,92 @@ server <-
       
       if(input$overlay == "nstudy"){
         
-        p <- p + 
-          geom_text(aes(label = as.character(n_studies)), size = 2, color = "black") +
-          labs(caption = "Number of studies per combination of factors are overlaid.")
+        if(input$summary_raw == "esdat"){
+          
+          if(input$z == "None"){
         
-      } 
+            p <- p + 
+              geom_text(aes(label = as.character(n_studies)), 
+                        size = 2.5) +
+              labs(caption = "Number of studies per combination of factors are overlaid.")
+        
+          } else if(input$z != "None"){
+            
+            p <- p + 
+              geom_text(aes(label = as.character(n_studies)), 
+                        size = 2.5,
+                        position = ggstance::position_dodgev(height = 0.8)) +
+              labs(caption = "Number of studies per combination of factors are overlaid.")
+            
+          } 
+        }
+        
+        if(input$summary_raw == "sumdat"){
+          
+          if(input$zsum == "None"){
+            
+            p <- p + 
+              geom_text(aes(label = as.character(n_studies)), 
+                        size = 2.5) +
+              labs(caption = "Number of studies per combination of factors are overlaid.")
+            
+          } else if(input$zum != "None"){
+            
+            p <- p + 
+              geom_text(aes(label = as.character(n_studies)),
+                        size = 2.5,
+                        position = ggstance::position_dodgev(height = 0.8)) +
+              labs(caption = "Number of studies per combination of factors are overlaid.")
+            
+          } 
+        }
+        
+      }
+      
       
       else if(input$overlay == "aves"){
         
         if(input$summary_raw == "esdat"){
-        
-        p <- p + 
-          geom_text(aes(label = as.character(beta)), size = 2, color = "black") +
-          labs(caption = "Average effect size per combination of factors are overlaid.")
-        
-        } 
+          
+            if(input$z == "None"){
+              
+              p <- p + 
+                geom_text(aes(label = as.character(beta)), 
+                          size = 2.5) +
+                labs(caption = "Number of studies per combination of factors are overlaid.")
+              
+            } else if(input$z != "None"){
+              
+              p <- p + 
+                geom_text(aes(label = as.character(beta)), 
+                          size = 2.5,
+                          position = ggstance::position_dodgev(height = 0.8)) +
+                labs(caption = "Number of studies per combination of factors are overlaid.")
+              
+            } 
+          }
+          
         
         else if(input$summary_raw == "sumdat"){
          
          if(input$aves != "None"){
            
-           p <- p + geom_text(aes(label = as.character(beta)), size = 2, color = "black") +
-             labs(caption = "Average effect size per combination of factors are overlaid.")
-           
-           
+           if(input$zsum == "None"){
+             
+             p <- p + 
+               geom_text(aes(label = as.character(beta)), 
+                         size = 2.5) +
+               labs(caption = "Number of studies per combination of factors are overlaid.")
+             
+           } else if(input$zum != "None"){
+             
+             p <- p + 
+               geom_text(aes(label = as.character(beta)), 
+                         size = 2.5, 
+                         position = ggstance::position_dodgev(height = 0.8)) +
+               labs(caption = "Number of studies per combination of factors are overlaid.")
+             
+           }
          } else if(input$aves == "None"){
            
            p <- p
@@ -412,7 +482,7 @@ server <-
         
     }
       
-      ggplotly(p)
+      ggplotly(p, height = 800) %>% layout(legend = list(orientation = "h", x = 0.1, y = -0.2))
       
    
       
