@@ -16,8 +16,7 @@ server <-
   
   shinyServer(function(input, output, session) {
     
-    if (exists("dataset", where = environment(server))) if (!is.null(dataset)) {
-      
+
       updateRadioButtons(
         session, 
         inputId = 'summary_raw', 
@@ -48,7 +47,6 @@ server <-
       )
       
       
-    }
     
     
     updateSelectInput(
@@ -270,6 +268,7 @@ server <-
           dat <- data.frame(factor_1 = x, 
                             factor_2 = y,
                             n_studies = n_studies)
+
         
         } else{
           
@@ -339,7 +338,7 @@ server <-
           p <- ggplot(dat, aes(x = factor_1, y = factor_2, 
                                size = n_studies, color = factor_3)) + 
             geom_point(alpha = 0.8, 
-                       position = ggstance::position_dodgev(height = 0.8)) +
+                       position = position_dodge(width = 1)) +
             labs(x = "", y = "", color = "") +
             scale_size_identity() +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
@@ -368,7 +367,7 @@ server <-
           p <- ggplot(dat, aes(x = factor_1, y = factor_2, 
                                size = n_studies, color = factor_3)) + 
             geom_point(alpha = 0.8, 
-                       position = ggstance::position_dodgev(height = 0.8)) +
+                       position = position_dodge(width = 1)) +
             labs(x = "", y = "", color = "") +
             scale_size_identity() +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
@@ -399,13 +398,12 @@ server <-
             p <- p + 
               geom_text(aes(label = as.character(n_studies)), 
                         size = 2.5,
-                        position = ggstance::position_dodgev(height = 0.8)) +
+                        position = position_dodge(width = 1)) +
               labs(caption = "Number of studies per combination of factors are overlaid.")
             
           } 
         }
-        
-        if(input$summary_raw == "sumdat"){
+        else if(input$summary_raw == "sumdat"){
           
           if(input$zsum == "None"){
             
@@ -414,14 +412,14 @@ server <-
                         size = 2.5) +
               labs(caption = "Number of studies per combination of factors are overlaid.")
             
-          } else if(input$zum != "None"){
+          } else if(input$zsum != "None"){
             
-            p <- p + 
-              geom_text(aes(label = as.character(n_studies)),
-                        size = 2.5,
-                        position = ggstance::position_dodgev(height = 0.8)) +
-              labs(caption = "Number of studies per combination of factors are overlaid.")
-            
+              p <- p + 
+                geom_text(aes(label = as.character(n_studies)), 
+                          size = 2.5,
+                          position = position_dodge(width = 1)) +
+                labs(caption = "Number of studies per combination of factors are overlaid.")
+              
           } 
         }
         
@@ -437,15 +435,15 @@ server <-
               p <- p + 
                 geom_text(aes(label = as.character(beta)), 
                           size = 2.5) +
-                labs(caption = "Number of studies per combination of factors are overlaid.")
+                labs(caption = "Average effect sizes per combination of factors are overlaid.")
               
             } else if(input$z != "None"){
               
               p <- p + 
                 geom_text(aes(label = as.character(beta)), 
                           size = 2.5,
-                          position = ggstance::position_dodgev(height = 0.8)) +
-                labs(caption = "Number of studies per combination of factors are overlaid.")
+                          position = position_dodge(width = 1)) +
+                labs(caption = "Average effect sizes per combination of factors are overlaid.")
               
             } 
           }
@@ -460,15 +458,15 @@ server <-
              p <- p + 
                geom_text(aes(label = as.character(beta)), 
                          size = 2.5) +
-               labs(caption = "Number of studies per combination of factors are overlaid.")
+               labs(caption = "Average effect sizes per combination of factors are overlaid.")
              
-           } else if(input$zum != "None"){
+           } else if(input$zsum != "None"){
              
              p <- p + 
                geom_text(aes(label = as.character(beta)), 
-                         size = 2.5, 
-                         position = ggstance::position_dodgev(height = 0.8)) +
-               labs(caption = "Number of studies per combination of factors are overlaid.")
+                         size = 2.5,
+                         position = position_dodge(width = 1)) +
+               labs(caption = "Average effect sizes per combination of factors are overlaid.")
              
            }
          } else if(input$aves == "None"){
@@ -487,45 +485,7 @@ server <-
    
       
     })
-    
-    # output$downloadPlot <- downloadHandler(
-    #   
-    #   filename = function(){
-    #      "plot.png"
-    #     },
-    #   
-    #   
-    #   content = function(file){
-    #     file.copy("plot.png", file, overwrite = TRUE)
-    #   }
-    # )
-    # 
-    
-    # output$info <- renderTable({
-    #   
-    #   dat <- datClean()
-    #   
-    #   if (is.null(input$plot1_click$x)) return("")
-    #   else{
-    #     
-    #   fct_1 <- levels(as.factor(dat$factor_1))
-    #   fct_2 <- levels(as.factor(dat$factor_2))
-    #   fct_click_1 <- fct_1[round(input$plot_click$x)]
-    #   fct_click_2 <- fct_2[round(input$plot_click$y)]
-    #   
-    #   
-    # 
-    #   dat %>%
-    #     filter(factor_1 == fct_click_1, 
-    #            factor_2 == fct_click_2) %>%
-    #     kable(digits = 3) %>%
-    #     kable_styling(
-    #       font_size = 15,
-    #       bootstrap_options = c("striped", "hover", "condensed")
-    #     )
-    #   }
-    # 
-    # })
+
 
     
 
