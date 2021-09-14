@@ -1,4 +1,4 @@
-load("dat_egm_prg.RData")
+#load("dat_egm_prg.RData")
 
 exampleChoices <-  c("Data EGM Program" = "dat_egm_prg")
 
