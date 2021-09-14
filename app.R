@@ -13,7 +13,6 @@ library(ggstance)
 
 source("ui.R")
 source("server.R")
-source("extra/example.R")
 source("tidy_meta.R")
 options(knitr.kable.NA = '')
 

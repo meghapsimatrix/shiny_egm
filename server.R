@@ -324,7 +324,7 @@ server <-
         if(input$z == "None"){
           
           p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
-            geom_point(alpha = 0.8, color = "skyblue") + 
+            geom_point(alpha = 0.5, color = "skyblue") + 
             labs(x = "", y = "") +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
             scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
@@ -337,8 +337,8 @@ server <-
           
           p <- ggplot(dat, aes(x = factor_1, y = factor_2, 
                                size = n_studies, color = factor_3)) + 
-            geom_point(alpha = 0.8, 
-                       position = position_dodge(width = 1)) +
+            geom_point(alpha = 0.5, aes(group = factor_3), 
+                       position = position_dodge(width= 0.5)) + 
             labs(x = "", y = "", color = "") +
             scale_size_identity() +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
@@ -353,7 +353,7 @@ server <-
         if(input$zsum == "None"){
           
           p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
-            geom_point(alpha = 0.8, color = "skyblue") + 
+            geom_point(alpha = 0.5, color = "skyblue") + 
             labs(x = "", y = "") +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
             scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
@@ -366,8 +366,8 @@ server <-
           
           p <- ggplot(dat, aes(x = factor_1, y = factor_2, 
                                size = n_studies, color = factor_3)) + 
-            geom_point(alpha = 0.8, 
-                       position = position_dodge(width = 1)) +
+            geom_point(alpha = 0.5, aes(group = factor_3), 
+                       position = position_dodge(width= 0.5)) + 
             labs(x = "", y = "", color = "") +
             scale_size_identity() +
             scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
@@ -390,15 +390,15 @@ server <-
         
             p <- p + 
               geom_text(aes(label = as.character(n_studies)), 
-                        size = 2.5) +
+                        size = 2.5, color = "black") +
               labs(caption = "Number of studies per combination of factors are overlaid.")
         
           } else if(input$z != "None"){
             
             p <- p + 
-              geom_text(aes(label = as.character(n_studies)), 
-                        size = 2.5,
-                        position = position_dodge(width = 1)) +
+              geom_text(aes(label = as.character(n_studies), group = factor_3), 
+                        size = 2.5, color = "black",
+                        position = position_dodge(width = .5)) +
               labs(caption = "Number of studies per combination of factors are overlaid.")
             
           } 
@@ -409,15 +409,15 @@ server <-
             
             p <- p + 
               geom_text(aes(label = as.character(n_studies)), 
-                        size = 2.5) +
+                        size = 2.5, color = "black") +
               labs(caption = "Number of studies per combination of factors are overlaid.")
             
           } else if(input$zsum != "None"){
             
               p <- p + 
-                geom_text(aes(label = as.character(n_studies)), 
-                          size = 2.5,
-                          position = position_dodge(width = 1)) +
+                geom_text(aes(label = as.character(n_studies), group = factor_3), 
+                          size = 2.5, color = "black",
+                          position = position_dodge(width = .5)) +
                 labs(caption = "Number of studies per combination of factors are overlaid.")
               
           } 
@@ -434,15 +434,15 @@ server <-
               
               p <- p + 
                 geom_text(aes(label = as.character(beta)), 
-                          size = 2.5) +
+                          size = 2.5, color = "black") +
                 labs(caption = "Average effect sizes per combination of factors are overlaid.")
               
             } else if(input$z != "None"){
               
               p <- p + 
-                geom_text(aes(label = as.character(beta)), 
-                          size = 2.5,
-                          position = position_dodge(width = 1)) +
+                geom_text(aes(label = as.character(beta), group = factor_3), 
+                          size = 2.5, color = "black",
+                          position = position_dodge(width = .5)) +
                 labs(caption = "Average effect sizes per combination of factors are overlaid.")
               
             } 
@@ -457,15 +457,15 @@ server <-
              
              p <- p + 
                geom_text(aes(label = as.character(beta)), 
-                         size = 2.5) +
+                         size = 2.5, color = "black") +
                labs(caption = "Average effect sizes per combination of factors are overlaid.")
              
            } else if(input$zsum != "None"){
              
              p <- p + 
-               geom_text(aes(label = as.character(beta)), 
-                         size = 2.5,
-                         position = position_dodge(width = 1)) +
+               geom_text(aes(label = as.character(beta), group = factor_3), 
+                         size = 2.5, color = "black",
+                         position = position_dodge(width = .5)) +
                labs(caption = "Average effect sizes per combination of factors are overlaid.")
              
            }
@@ -480,7 +480,7 @@ server <-
         
     }
       
-      ggplotly(p, height = 800) %>% layout(legend = list(orientation = "h", x = 0.1, y = -0.2))
+      ggplotly(p, height = 800, width = 800) %>% layout(legend = list(orientation = "h", x = 0.1, y = -0.2))
       
    
       

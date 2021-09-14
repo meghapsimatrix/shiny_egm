@@ -1,4 +1,3 @@
-source("extra/example.R")
 
 ui <- fluidPage(
   
