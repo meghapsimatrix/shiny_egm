@@ -480,7 +480,8 @@ server <-
         
     }
       
-      ggplotly(p, height = 800, width = 800) %>% layout(legend = list(orientation = "h", x = 0.1, y = -0.2))
+      ggplotly(p, height = 800, width = 800, tooltip = c("x", "y", "n_studies")) %>% 
+        layout(legend = list(orientation = "h", x = 0.1, y = -0.2))
       
    
       
