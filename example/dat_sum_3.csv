@@ -1,0 +1,48 @@
+factor_1,factor_2,factor_3,beta,SE,df,CI_L,CI_U,method,n_studies,n_es
+Non-Randomized Class, Aggression/Bullying, Mixture,-0.034,0.055,22,-0.148,0.08,Simple Average,2,23
+Non-Randomized Class, Aggression/Bullying, Private,-0.254,0.163,4,-0.705,0.198,Simple Average,2,5
+Non-Randomized Class, Aggression/Bullying, Public,-0.386,0.013,2,-0.441,-0.33,Simple Average,1,3
+Non-Randomized Class, Cyberbullying, Mixture,-0.043,0.046,9,-0.148,0.063,Simple Average,2,10
+Non-Randomized Class, Cyberbullying, Private,-0.39,0.19,1,-2.804,2.024,Simple Average,1,2
+Non-Randomized Class, Cyberbullying, Public,0.227,0.395,1,-4.792,5.245,Simple Average,2,2
+Non-Randomized Class, Relational Aggression, Mixture,0.019,0.044,5,-0.093,0.131,Simple Average,1,6
+Non-Randomized Class, Relational Aggression, Private,-0.39,0.225,3,-1.108,0.327,Simple Average,2,4
+Non-Randomized Class, Relational Aggression, Public,-0.185,0.044,1,-0.738,0.369,Simple Average,1,2
+Non-Randomized Class, Sexual Violence, Mixture,-1.38,NA,NA,NA,NA,Simple Average,1,1
+Non-Randomized Class, Sexual Violence, Private,-0.99,NA,NA,NA,NA,Simple Average,1,1
+Non-Randomized Individual, Aggression/Bullying, Public,-0.066,0.049,1.611,-0.333,0.201,CHE,3,20
+Non-Randomized Individual, Cyberbullying, Mixture,-2.239,0.299,1,-6.033,1.555,Simple Average,1,2
+Non-Randomized Individual, Cyberbullying, Private,-0.426,0.529,1,-7.151,6.299,Simple Average,2,2
+Non-Randomized Individual, Cyberbullying, Public,-0.472,0.236,4.771,-1.088,0.145,CHE,6,19
+Non-Randomized School, Aggression/Bullying, Mixture,-0.227,0.089,2.44,-0.552,0.098,CHE,4,9
+Non-Randomized School, Aggression/Bullying, Private,0.031,0.022,23,-0.016,0.077,Simple Average,1,24
+Non-Randomized School, Aggression/Bullying, Public,0.203,0.247,3,-0.581,0.988,Simple Average,2,4
+Non-Randomized School, Cyberbullying, Mixture,-0.088,0.106,5.12,-0.359,0.182,CHE,7,24
+Non-Randomized School, Cyberbullying, Private,0.03,0.056,6,-0.108,0.167,Simple Average,1,7
+Non-Randomized School, Cyberbullying, Public,-0.011,0.035,1.997,-0.163,0.141,CHE,4,7
+Non-Randomized School, Internalizing, Public,-0.108,NA,NA,NA,NA,Simple Average,1,1
+Non-Randomized School, Relational Aggression, Private,0.037,0.057,7,-0.098,0.172,Simple Average,1,8
+Non-Randomized School, Relational Aggression, Public,-0.303,NA,NA,NA,NA,Simple Average,1,1
+Randomized Class, Aggression/Bullying, Mixture,-0.495,0.051,14,-0.604,-0.386,Simple Average,2,15
+Randomized Class, Aggression/Bullying, Public,-0.062,0.041,1.49,-0.314,0.189,CHE,4,17
+Randomized Class, Cyberbullying, Mixture,-0.408,0.118,1.926,-0.933,0.118,CHE,3,12
+Randomized Class, Cyberbullying, Private,0.074,0.017,3,0.021,0.127,Simple Average,1,4
+Randomized Class, Cyberbullying, Public,-0.186,0.125,5.947,-0.493,0.121,CHE,7,27
+Randomized Class, Internalizing, Mixture,-0.361,0.17,2,-1.091,0.37,Simple Average,2,3
+Randomized Class, Internalizing, Public,-0.125,0.073,1.981,-0.443,0.193,CHE,3,7
+Randomized Class, Relational Aggression, Mixture,-0.592,0.045,1,-1.161,-0.022,Simple Average,2,2
+Randomized Class, School Performance, Public,0,0.012,4,-0.034,0.035,Simple Average,1,5
+Randomized Individual, Aggression/Bullying, Public,-0.264,0.02,1,-0.513,-0.015,Simple Average,1,2
+Randomized Individual, Cyberbullying, Mixture,0.08,0.035,4,-0.016,0.176,Simple Average,2,5
+Randomized Individual, Cyberbullying, Public,-0.434,0.119,7.258,-0.714,-0.154,CHE,10,22
+Randomized Individual, Internalizing, Public,-0.078,0.035,1,-0.516,0.36,Simple Average,1,2
+Randomized School, Aggression/Bullying, Mixture,-0.235,NA,NA,NA,NA,Simple Average,1,1
+Randomized School, Aggression/Bullying, Private,0.068,0.032,1,-0.345,0.481,Simple Average,1,2
+Randomized School, Aggression/Bullying, Public,-0.101,0.067,4.012,-0.286,0.085,CHE,6,39
+Randomized School, Cyberbullying, Private,-0.054,0.025,2,-0.162,0.054,Simple Average,2,3
+Randomized School, Cyberbullying, Public,-0.091,0.034,4.277,-0.183,0.001,CHE,9,58
+Randomized School, Internalizing, Private,-0.006,0.001,1,-0.013,0.002,Simple Average,1,2
+Randomized School, Internalizing, Public,-0.031,0.055,2.022,-0.264,0.202,CHE,4,16
+Randomized School, Relational Aggression, Public,-0.246,0.018,1,-0.48,-0.013,Simple Average,1,2
+Randomized School, School Performance, Public,-0.06,0.01,2,-0.104,-0.017,Simple Average,1,3
+Randomized School, Sexual Violence, Public,-0.236,NA,NA,NA,NA,Simple Average,1,1
