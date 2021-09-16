@@ -10,11 +10,15 @@ library(rclipboard)
 library(metafor)
 library(clubSandwich)
 library(ggstance)
+library(janitor)
+library(estimatr)
+library(readxl)
+
 
 source("ui.R")
 source("server.R")
 source("tidy_meta.R")
-options(knitr.kable.NA = '')
-
+source("plot_egm.R")
+# Run the application 
 shinyApp(ui = ui, server = server)
 
