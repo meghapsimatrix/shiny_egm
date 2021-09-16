@@ -29,13 +29,16 @@ tidy_meta <- function(dat, rho = 0.6){
     
     # run RVE
     res <- conf_int(mod, vcov = "CR2", tidy = TRUE) %>%
-      as_tibble()
+      as_tibble() %>%
+      mutate(method = "CHE")
     
   } else {
     
-    beta <- mean(dat$es, na.rm = TRUE)
+    mod <- lm_robust(es ~ 1, data = dat)
     
-    res <- tibble(beta = beta, SE = NA, df = NA, CI_L = NA, CI_U = NA)
+    res <- tidy(mod) %>%
+      select(beta = estimate, SE = std.error, df = df, CI_L = conf.low, CI_U = conf.high) %>%
+      mutate(method = "Simple Average")
     
   }
   
