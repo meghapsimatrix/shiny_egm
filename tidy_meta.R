@@ -33,14 +33,16 @@ tidy_meta <- function(dat, rho = 0.6){
       mutate(method = "CHE")
     
   } else {
-    
-    mod <- lm_robust(es ~ 1, data = dat)
+      
+    suppressWarnings(mod <- lm_robust(es ~ 1, data = dat, se_type = "classical"))
     
     res <- tidy(mod) %>%
       select(beta = estimate, SE = std.error, df = df, CI_L = conf.low, CI_U = conf.high) %>%
       mutate(method = "Simple Average")
     
   }
+    
+
   
   output <- bind_cols(res, summary) %>%
     mutate_if(is.numeric, round, 3) #%>%
