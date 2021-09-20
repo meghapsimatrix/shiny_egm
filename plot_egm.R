@@ -1,3 +1,5 @@
+palette_OkabeIto <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
+
 make_egm_plot <- function(data, factors_n){
 
   if(factors_n == "two"){
@@ -20,7 +22,7 @@ make_egm_plot <- function(data, factors_n){
                  position = position_dodge(width= 0.5)) + 
       labs(x = "", y = "", color = "") +
       scale_size_identity() +
-      scale_color_colorblind() +
+      scale_color_manual(values = palette_OkabeIto) +
       scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
       scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
       theme_minimal() +
@@ -56,7 +58,7 @@ add_text_egm <- function(pl, what_over = "n_studies", factors_n){
     
     
     pl <- pl  + 
-      geom_text(aes(label = as.character(beta)), 
+      geom_text(aes(label = as.character(round(beta, 1))), 
                 size = 2.5, color = "black") +
       labs(caption = "Average effect sizes per combination of factors are overlaid.")
     
@@ -64,7 +66,7 @@ add_text_egm <- function(pl, what_over = "n_studies", factors_n){
   } else if(what_over == "aves" & factors_n == "three"){
     
     pl <- pl + 
-      geom_text(aes(label = as.character(beta), group = factor_3), 
+      geom_text(aes(label = as.character(round(beta, 1)), group = factor_3), 
                 size = 2.5, color = "black",
                 position = position_dodge(width = .5)) +
       labs(caption = "Average effect sizes per combination of factors are overlaid.")
