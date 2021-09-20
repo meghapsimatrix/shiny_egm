@@ -78,11 +78,12 @@ server <-
         
         if(input$num_factors == "two"){
           
-          read_csv("example/dat_sum_2.csv")
+          read_csv("example/dat_sum_2.csv") 
+        
           
         } else if(input$num_factors == "three"){
           
-          read_csv("example/dat_sum_3.csv")
+          read_csv("example/dat_sum_3.csv") 
           
         }
       }
@@ -473,20 +474,85 @@ server <-
         }
       }
       
+      p
       
-      
+      ggsave("egm_plot.png")
       
       p
       
     })
     
     
+    output$dndPlot <- downloadHandler(
+      filename = function() {
+        "egm_plot.png"
+      },
+      content = function(file) {
+        file.copy("egm_plot.png", file, overwrite = TRUE)
+      }
+    )
+    
+    
+    # This part doesn't work yet!
+    
+    egm_syntax <- reactive({
+      
+      header_res <- c(
+        '# Load packages',
+        'library(tidyverse)',
+        'library(metafor)',
+        ''
+      )
+      
+      # read in file code
+      
+      if(input$ex_upload == "example") {
+        
+        if(input$num_factors == "two"){
+        
+        read_res <- c(
+          parse_code_chunk("load_example", 
+                           args = list(user_path = "example/dat_sum_2.csv")),
+          ''
+        )
+        
+        } else if(input$num_factors == "three"){
+          
+          read_res <- c(
+            parse_code_chunk("load_example", 
+                             args = list(user_path = "example/dat_sum_3.csv")),
+            ''
+          )
+        }
+      } else if(input$ex_upload == "up"){
+        
+        if(input$dat_type == "dat"){
+        inFile <- input$dat
+        read_res <- c(
+          parse_code_chunk("load_dat", 
+                           args = list(user_path = inFile$name, user_header = input$header, 
+                                       user_sep = input$sep, user_quote = input$quote)),
+          ''
+        )
+      } else if (input$dat_type == "xlsx") {
+        inFile <- input$xlsx
+        read_res <- c(
+          parse_code_chunk("load_excel", args = list(user_path = inFile$name, user_sheet = input$inSelect)),
+          ''
+        )
+      }
+        
+      }
+      
+    })
+    
+    
     output$syntax <- renderPrint({
-      "R syntax"
+      cat(egm_syntax(), sep = "\n")
     })
     
     output$clip <- renderUI({
-      rclipButton("clipbtn", "Copy", "R syntax", icon("clipboard"))
+      rclipButton("clipbtn", "Copy", egm_syntax(), icon("clipboard"))
     })
     
   })

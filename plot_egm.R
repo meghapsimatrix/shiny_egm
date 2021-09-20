@@ -3,7 +3,7 @@ make_egm_plot <- function(data, factors_n){
   if(factors_n == "two"){
     
   p <- ggplot(data, aes(x = factor_1, y = factor_2, size = n_studies)) + 
-    geom_point(alpha = 0.5, color = "skyblue") + 
+    geom_point(alpha = 0.6, color = "skyblue") + 
     labs(x = "", y = "") +
     scale_size_identity() +
     scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
@@ -16,10 +16,11 @@ make_egm_plot <- function(data, factors_n){
     
     p <- ggplot(data, aes(x = factor_1, y = factor_2, 
                          size = n_studies, color = factor_3)) + 
-      geom_point(alpha = 0.5, aes(group = factor_3), 
+      geom_point(alpha = 0.6, aes(group = factor_3), 
                  position = position_dodge(width= 0.5)) + 
       labs(x = "", y = "", color = "") +
       scale_size_identity() +
+      scale_color_colorblind() +
       scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
       scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
       theme_minimal() +

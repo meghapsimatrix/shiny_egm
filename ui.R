@@ -132,6 +132,7 @@ ui <- fluidPage(
                                                 selected = "nothing")
                        ), 
                        mainPanel("",
+                                 downloadButton('dndPlot','Download Plot'),
                                  plotOutput("egmPlot")
                                  
                        )

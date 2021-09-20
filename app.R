@@ -13,12 +13,14 @@ library(ggstance)
 library(janitor)
 library(estimatr)
 library(readxl)
+library(ggthemes)
 
 
 source("ui.R")
 source("server.R")
 source("tidy_meta.R")
 source("plot_egm.R")
+source("parse_syntax.R")
 # Run the application 
 shinyApp(ui = ui, server = server)
 
