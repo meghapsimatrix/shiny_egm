@@ -58,7 +58,7 @@ add_text_egm <- function(pl, what_over = "n_studies", factors_n){
     
     
     pl <- pl  + 
-      geom_text(aes(label = as.character(round(beta, 1))), 
+      geom_text(aes(label = as.character(round(estimate, 1))), 
                 size = 2.5, color = "black") +
       labs(caption = "Average effect sizes per combination of factors are overlaid.")
     
@@ -66,7 +66,7 @@ add_text_egm <- function(pl, what_over = "n_studies", factors_n){
   } else if(what_over == "aves" & factors_n == "three"){
     
     pl <- pl + 
-      geom_text(aes(label = as.character(round(beta, 1)), group = factor_3), 
+      geom_text(aes(label = as.character(round(estimate, 1)), group = factor_3), 
                 size = 2.5, color = "black",
                 position = position_dodge(width = .5)) +
       labs(caption = "Average effect sizes per combination of factors are overlaid.")

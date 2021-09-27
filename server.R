@@ -40,6 +40,23 @@ server <-
       selected = "var"
     )
     
+    updateRadioButtons(
+      session, 
+      inputId = 'model', 
+      label = 'Which model do you want to use to calculate the average effect sizes?',
+      choices = c("Correlated and Hierarchical Effects Model" = "che",
+                  "Correlated Effects Model" = "ce",
+                  "Hiearchical Effects Model" = "he"),
+      selected = "che"
+    )
+    
+    updateSliderInput(
+      session,
+      inputId = 'rho',
+      label = "What value would you like to use for the within-study correlation between effect sizes?",
+      min = 0, max = 1, value = 0.8
+    )
+    
     updateSelectInput(
       session,
       inputId = "overlay",
@@ -76,16 +93,18 @@ server <-
       
       if (input$ex_upload == "example") {
         
-        if(input$num_factors == "two"){
-          
-          read_csv("example/dat_sum_2.csv") 
+        read_csv("example/example_dat_clean.csv")
         
-          
-        } else if(input$num_factors == "three"){
-          
-          read_csv("example/dat_sum_3.csv") 
-          
-        }
+        # if(input$num_factors == "two"){
+        #   
+        #   read_csv("example/dat_sum_2.csv") 
+        # 
+        #   
+        # } else if(input$num_factors == "three"){
+        #   
+        #   read_csv("example/dat_sum_3.csv") 
+        #   
+        # }
       }
         
         
@@ -97,8 +116,8 @@ server <-
             
             if (is.null(inFile)) return(NULL)
             
-            read.table(inFile$datapath, header=input$header, 
-                       sep=input$sep, quote=input$quote,
+            read.table(inFile$datapath, header = input$header, 
+                       sep = input$sep, #quote=input$quote,
                        stringsAsFactors = FALSE) %>% 
               clean_names(case = "parsed")
             
@@ -200,14 +219,66 @@ server <-
       selectInput("aves", label = "Average effect size: Please specify variable containing the average effect sizes per combination of factors. If your data does not have average effect sizes, select 'None'.", choices = var_names, selected = var_names[1])
     })
     
+
+    # Parameters --------------------------------------------------------------
+    
+    modType <- eventReactive(input$go, {
+      
+      input$model
+      
+    })
+    
+
+    rho <- eventReactive(input$go, {
+      
+      input$rho
+      
+    })    
+    
+    
+    output$noparam <- renderText({ "Because you want to use summary data, no need to set the parameters." })
+    
     # clean the data ----------------------------------------------------------
     
     
-    datClean <- reactive({
+    datClean <- eventReactive(input$go, {
       
       if(input$ex_upload == "example"){
         
         dat <- datFile()
+        
+        if(input$num_factors == "two"){
+          
+          withProgress(message = "Estimating", value = 0, {
+            
+            dat <- 
+            dat %>%
+            group_by(factor_1, factor_2) %>%
+            group_modify(~ tidy_meta(.x, 
+                                     model = modType(), 
+                                     rho_val = rho())) %>%
+            ungroup()
+            
+          })
+        
+        } else if(input$num_factors == "three"){
+          
+          withProgress(message = "Estimating", value = 0, {
+          
+          dat <- 
+            dat %>%
+            group_by(factor_1, factor_2, factor_3) %>%
+            group_modify(~ tidy_meta(.x, 
+                                     model = modType(), 
+                                     rho_val = rho())) %>%
+            ungroup()
+          
+          })
+          
+        }
+        
+        
+        
         
       } else if(input$ex_upload == "up"){
         
@@ -234,11 +305,18 @@ server <-
                                 factor_1 = x, 
                                 factor_2 = y)
               
+              withProgress(message = "Estimating", value = 0, {
+              
+              
               dat <- 
                 dat %>%
                 group_by(factor_1, factor_2) %>%
-                group_modify(~ tidy_meta(.x)) %>%
+                group_modify(~ tidy_meta(.x, 
+                                         model = modType(), 
+                                         rho_val = rho())) %>%
                 ungroup()
+              
+              })
               
             } else {
               
@@ -253,12 +331,17 @@ server <-
                                 factor_2 = y,
                                 factor_3 = z)
               
+              withProgress(message = "Estimating", value = 0, {
+              
               dat <- 
                 dat %>%
                 group_by(factor_1, factor_2, factor_3) %>%
-                group_modify(~ tidy_meta(.x)) %>%
+                group_modify(~ tidy_meta(.x, 
+                                         model = modType(), 
+                                         rho_val = rho())) %>%
                 ungroup()
               
+              })
               
             }
             
@@ -296,7 +379,7 @@ server <-
               avg_es <- datFile()[,input$aves]
               
               dat <- dat %>%
-                mutate(beta = avg_es)
+                mutate(estimate = avg_es)
               
               
             }
@@ -323,7 +406,7 @@ server <-
     })
     
     
-    output$egmPlot <- renderPlot({
+   plot_obj <- reactive({
       
       dat <- datClean()
       
@@ -475,12 +558,13 @@ server <-
       }
       
       p
-      
-      ggsave("egm_plot.png")
-      
-      p
+    
       
     })
+   
+   output$egmPlot <- renderPlot({
+     plot_obj()
+   })
     
     
     output$dndPlot <- downloadHandler(
@@ -488,7 +572,7 @@ server <-
         "egm_plot.png"
       },
       content = function(file) {
-        file.copy("egm_plot.png", file, overwrite = TRUE)
+        ggsave(file, plot_obj())
       }
     )
     

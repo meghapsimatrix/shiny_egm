@@ -41,8 +41,8 @@ ui <- fluidPage(
                                   condition = "input.ex_upload == 'up' & input.dat_type == 'dat'",
                                   fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv', '.txt')),
                                   checkboxInput('header', 'File has a header?', TRUE),
-                                  radioButtons('sep', 'Seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
-                                  radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
+                                  radioButtons('sep', 'Seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' '))
+                                  #radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
                                 ),
                                 
                                 
@@ -117,6 +117,53 @@ ui <- fluidPage(
               ),
               fluidRow(br(),br(),br())
               ),
+              
+              tabPanel("Set Parameters",
+                       br(),
+
+                       fluidRow(
+                         column(4,
+                                
+                                conditionalPanel(
+                                  
+                                  condition = "input.ex_upload == 'up' & input.summary_raw == 'sumdat' ||
+                                    input.ex_upload == 'up' & input.dat_type == 'sumxlsx'",
+                                  
+                                  textOutput("noparam")
+                                  
+                                ),
+                                
+                                
+                                conditionalPanel(
+
+                                  condition = "input.ex_upload == 'example' || 
+                                               input.ex_upload == 'up' & input.dat_type == 'dat' ||
+                                               input.ex_upload == 'up' & input.dat_type == 'xlsx'",
+                                  
+                                  radioButtons('model',
+                                               'Which model do you want to use to calculate the average effect sizes?',
+                                               c("Correlated and Hierarchical Effects Model" = "che",
+                                                 "Correlated Effects Model" = "ce",
+                                                 "Hiearchical Effects Model" = "he")),
+                                  
+                                  sliderInput("rho", "What value would you like to use for the within-study correlation between effect sizes?",
+                                              min = 0, max = 1, value = 0.8),
+                                ),
+                                
+                                
+                         ),
+                         
+                         column(8,
+                                
+                                actionButton("go", "Run Analyses"),
+                                ),
+                         
+                         
+                       ),
+                       fluidRow(br(),br(),br())
+              ),
+
+
   
               tabPanel("Examine Summary Data",
                        dataTableOutput("contents")),
