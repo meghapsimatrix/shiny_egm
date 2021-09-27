@@ -7,24 +7,26 @@ dat <- read_csv("example/cyber_bullying_clean.csv")
 dat <- dat %>%
   rename(assignment = He_asgn_type,
          outcome = Co02_macro.1,
-         school_setting = Sa22_scl_type)
+         school_setting = Sa22_scl_type) %>%
+  mutate(assignment = case_when(assignment == "non_cls" ~ "Non-Randomized Class",
+                              assignment == "non_ind" ~ "Non-Randomized Individual",
+                              assignment == "non_scl" ~ "Non-Randomized School",
+                              assignment == "ran_cls" ~ "Randomized Class",
+                              assignment == "ran_ind" ~ "Randomized Individual",
+                              assignment == "ran_scl" ~ "Randomized School"),
+         outcome = str_sub(outcome, 5),
+         school_setting = str_sub(school_setting, 4))
 
 
 dat <- dat %>%
-  rename(es = yi_flp,
+  select(es = yi_flp,
          var = vi,
          study_id = StudyID,
          factor_1 = assignment,
          factor_2 = outcome, 
-         factor_3 = school_setting) %>%
-  mutate(factor_1 = case_when(factor_1 == "non_cls" ~ "Non-Randomized Class",
-                              factor_1 == "non_ind" ~ "Non-Randomized Individual",
-                              factor_1 == "non_scl" ~ "Non-Randomized School",
-                              factor_1 == "ran_cls" ~ "Randomized Class",
-                              factor_1 == "ran_ind" ~ "Randomized Individual",
-                              factor_1 == "ran_scl" ~ "Randomized School"),
-         factor_2 = str_sub(factor_2, 5),
-         factor_3 = str_sub(factor_3, 4))
+         factor_3 = school_setting)
+
+write_csv(dat, "example/example_dat_clean.csv")
 
 
 
