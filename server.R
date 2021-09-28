@@ -632,36 +632,29 @@ server <-
       
       if(input$ex_upload == "example") {
         
-        if(input$num_factors == "two"){
-        
         read_res <- c(
-          parse_code_chunk("load_example", 
-                           args = list(user_path = "example/dat_sum_2.csv")),
+          parse_code_chunk("load_example", args = list(path = "example/example_dat_clean.csv")),
           ''
         )
-        
-        } else if(input$num_factors == "three"){
-          
-          read_res <- c(
-            parse_code_chunk("load_example", 
-                             args = list(user_path = "example/dat_sum_3.csv")),
-            ''
-          )
-        }
+
       } else if(input$ex_upload == "up"){
         
         if(input$dat_type == "dat"){
+          
         inFile <- input$dat
+        
         read_res <- c(
           parse_code_chunk("load_dat", 
                            args = list(user_path = inFile$name, user_header = input$header, 
-                                       user_sep = input$sep, user_quote = input$quote)),
+                                       user_sep = input$sep)),
           ''
         )
       } else if (input$dat_type == "xlsx") {
+        
         inFile <- input$xlsx
+        
         read_res <- c(
-          parse_code_chunk("load_excel", args = list(user_path = inFile$name, user_sheet = input$inSelect)),
+          parse_code_chunk("load_excel", args = list(user_path = inFile$name)),
           ''
         )
       }
