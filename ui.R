@@ -153,10 +153,7 @@ ui <- fluidPage(
                                 
                          ),
                          
-                         column(8,
-                                
-                                actionButton("go", "Run Analyses"),
-                                ),
+
                          
                          
                        ),
@@ -166,6 +163,9 @@ ui <- fluidPage(
 
   
               tabPanel("Examine Summary Data",
+                       br(),
+                       actionButton("go", "Run Analyses"),
+                       fluidRow(br(),br()),
                        dataTableOutput("contents")),
               
               tabPanel("Evidence Gap Map",
@@ -176,7 +176,13 @@ ui <- fluidPage(
                                                 choices = c("Number of Studies" = "nstudy", 
                                                             "Average Effect Size" = "aves", 
                                                             "Nothing" = "nothing"), 
-                                                selected = "nothing")
+                                                selected = "nothing"),
+                                    sliderInput("height", "Download Plot: Please specify the height (in).",
+                                                min = 1, max = 15, value = 7),
+                                    sliderInput("width", "Download Plot: Please specify the width (in).",
+                                                min = 1, max = 15, value = 7),
+                                    textInput("pname", label = "Download Plot: Please specify the name of the plot.", value = "egm_plot.png")
+                                    
                        ), 
                        mainPanel("",
                                  downloadButton('dndPlot','Download Plot'),

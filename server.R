@@ -57,6 +57,28 @@ server <-
       min = 0, max = 1, value = 0.8
     )
     
+    updateSliderInput(
+      session,
+      inputId = 'height',
+      label = "Download Plot: Please specify the height (in).",
+      min = 1, max = 15, value = 7
+    )
+    
+    updateSliderInput(
+      session,
+      inputId = 'width',
+      label = "Download Plot: Please specify the width (in).",
+      min = 1, max = 15, value = 7
+    )
+    
+    updateTextInput(
+      session,
+      inputId = "pname",
+      label = "Download Plot: Download Plot: Please specify the name of the plot.",
+      value = "egm_plot.png"
+    )
+
+    
     updateSelectInput(
       session,
       inputId = "overlay",
@@ -235,6 +257,23 @@ server <-
       
     })    
     
+    ht <- reactive({
+      
+      input$height
+      
+    })
+    
+    wd <- reactive({
+      
+      input$width
+      
+    })
+    
+    plotname <- reactive({
+      
+      input$pname
+    })
+    
     
     output$noparam <- renderText({ "Because you want to use summary data, no need to set the parameters." })
     
@@ -249,8 +288,8 @@ server <-
         
         if(input$num_factors == "two"){
           
-          withProgress(message = "Estimating", value = 0, {
-            
+          shinybusy::show_modal_spinner(text = "Estimating...") 
+          
             dat <- 
             dat %>%
             group_by(factor_1, factor_2) %>%
@@ -258,12 +297,12 @@ server <-
                                      model = modType(), 
                                      rho_val = rho())) %>%
             ungroup()
-            
-          })
-        
+          
+            shinybusy::remove_modal_spinner() 
+
         } else if(input$num_factors == "three"){
           
-          withProgress(message = "Estimating", value = 0, {
+          shinybusy::show_modal_spinner(text = "Estimating...") 
           
           dat <- 
             dat %>%
@@ -273,7 +312,7 @@ server <-
                                      rho_val = rho())) %>%
             ungroup()
           
-          })
+          shinybusy::remove_modal_spinner()
           
         }
         
@@ -305,7 +344,7 @@ server <-
                                 factor_1 = x, 
                                 factor_2 = y)
               
-              withProgress(message = "Estimating", value = 0, {
+              shinybusy::show_modal_spinner(text = "Estimating...") 
               
               
               dat <- 
@@ -316,7 +355,7 @@ server <-
                                          rho_val = rho())) %>%
                 ungroup()
               
-              })
+              shinybusy::remove_modal_spinner()
               
             } else {
               
@@ -331,7 +370,8 @@ server <-
                                 factor_2 = y,
                                 factor_3 = z)
               
-              withProgress(message = "Estimating", value = 0, {
+              shinybusy::show_modal_spinner(text = "Estimating...") 
+              
               
               dat <- 
                 dat %>%
@@ -341,7 +381,7 @@ server <-
                                          rho_val = rho())) %>%
                 ungroup()
               
-              })
+              shinybusy::remove_modal_spinner()
               
             }
             
@@ -569,10 +609,10 @@ server <-
     
     output$dndPlot <- downloadHandler(
       filename = function() {
-        "egm_plot.png"
+        plotname()
       },
       content = function(file) {
-        ggsave(file, plot_obj())
+        ggsave(file, plot_obj(), device = "png", units = "in", height = ht(), width = wd())
       }
     )
     
