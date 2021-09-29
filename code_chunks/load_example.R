@@ -1,3 +1,3 @@
 library(tidyverse)
 
-read_csv("{path}")
+dat <- read_csv("{path}")
