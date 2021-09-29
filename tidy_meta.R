@@ -66,7 +66,8 @@ tidy_meta <- function(dat,
     # run RVE
     res <- conf_int(mod, vcov = "CR2", tidy = TRUE) %>%
       as_tibble() %>%
-      mutate(method = "CHE")
+      mutate(method = "CHE") %>%
+      rename(estimate = beta)
     
   }
     

@@ -291,12 +291,12 @@ server <-
           shinybusy::show_modal_spinner(text = "Estimating...") 
           
             dat <- 
-            dat %>%
-            group_by(factor_1, factor_2) %>%
-            group_modify(~ tidy_meta(.x, 
-                                     model = modType(), 
-                                     rho_val = rho())) %>%
-            ungroup()
+              dat %>%
+              group_by(factor_1, factor_2) %>%
+              group_modify(~ tidy_meta(.x, 
+                                       model = modType(), 
+                                       rho_val = rho())) %>%
+              ungroup()
           
             shinybusy::remove_modal_spinner() 
 
@@ -660,6 +660,31 @@ server <-
       }
         
       }
+      
+      
+      # 
+      # if(input$ex_upload == "example"){
+      #   
+      #   
+      #   if(input$num_factors == "two"){
+      #     
+      #     clean_dat <- c(
+      #       parse_code_chunk("dat_example",
+      #                             args = list(user_params = c("factor_1", "factor_2", "es", "var", "studyid"))),
+      #       ''
+      #     )
+      #     
+      #   } else if(input$num_factors == "three"){
+      #     
+      #     clean_dat <- c(
+      #       parse_code_chunk("dat_example",
+      #                        args = list(user_params = c("factor_1", "factor_2", "factor_3", "es", "var", "studyid"))),
+      #       ''
+      #     )
+      #     
+      #   }
+      #   
+      # }
       
     })
     

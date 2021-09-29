@@ -1,7 +1,7 @@
 
 ui <- fluidPage(
   
-  theme = shinytheme("flatly"),
+  theme = shinytheme("yeti"),
   
   # App title
   titlePanel("Evidence Gap Maps"),
@@ -126,8 +126,7 @@ ui <- fluidPage(
                                 
                                 conditionalPanel(
                                   
-                                  condition = "input.ex_upload == 'up' & input.summary_raw == 'sumdat' ||
-                                    input.ex_upload == 'up' & input.dat_type == 'sumxlsx'",
+                                  condition = "input.ex_upload == 'up' & input.summary_raw == 'sumdat'",
                                   
                                   textOutput("noparam")
                                   
@@ -137,8 +136,7 @@ ui <- fluidPage(
                                 conditionalPanel(
 
                                   condition = "input.ex_upload == 'example' || 
-                                               input.ex_upload == 'up' & input.dat_type == 'dat' ||
-                                               input.ex_upload == 'up' & input.dat_type == 'xlsx'",
+                                               input.ex_upload == 'up' & input.summary_raw == 'esdat'",
                                   
                                   radioButtons('model',
                                                'Which model do you want to use to calculate the average effect sizes?',
@@ -162,9 +160,9 @@ ui <- fluidPage(
 
 
   
-              tabPanel("Examine Summary Data",
+              tabPanel("Run Analyses and Examine",
                        br(),
-                       actionButton("go", "Run Analyses"),
+                       actionButton("go", "Create Summary Data"),
                        fluidRow(br(),br()),
                        dataTableOutput("contents")),
               
@@ -177,12 +175,12 @@ ui <- fluidPage(
                                                             "Average Effect Size" = "aves", 
                                                             "Nothing" = "nothing"), 
                                                 selected = "nothing"),
+                                    textInput("pname", label = "Download Plot: Please specify the name of the plot.", value = "egm_plot.png"),
                                     sliderInput("height", "Download Plot: Please specify the height (in).",
                                                 min = 1, max = 15, value = 7),
                                     sliderInput("width", "Download Plot: Please specify the width (in).",
-                                                min = 1, max = 15, value = 7),
-                                    textInput("pname", label = "Download Plot: Please specify the name of the plot.", value = "egm_plot.png")
-                                    
+                                                min = 1, max = 15, value = 7)
+
                        ), 
                        mainPanel("",
                                  downloadButton('dndPlot','Download Plot'),

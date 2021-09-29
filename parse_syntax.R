@@ -13,3 +13,10 @@ parse_code_chunk <- function(chunk, args) {
   glue::glue_data(.x = args, code_chunk)
   
 }
+
+#---------------------------------------------------------------
+# paste an object in server for code chunks
+#---------------------------------------------------------------
+paste_object <- function(object) {
+  paste("c(", paste(object, collapse = ","), ")", sep = "")
+}
