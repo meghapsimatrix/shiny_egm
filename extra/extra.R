@@ -1,20 +1,69 @@
-output$meta <- renderText({
+tabPanel("Evidence Gap Map",
+         
+         br(),
+         sidebarPanel("",
+                      selectInput("overlay", label = "What do you want to overlay on the dots?",
+                                  choices = c("Number of Studies" = "nstudy", 
+                                              "Average Effect Size" = "aves", 
+                                              "Nothing" = "nothing"), 
+                                  selected = "nothing")
+         ), 
+         mainPanel("",
+                   #downloadButton('downloadPlot', 'Download Plot'),
+                   plotOutput("egmPlot")
+                   
+                   # htmlOutput("info")
+                   
+         )
+)
+
+
+
+
+output$egmPlot <- renderPlot({
   
   dat <- datClean()
   
-  dat %>%
-    group_by(factor_1, factor_2) %>%
-    group_modify(~ tidy_meta(.x)) %>%
-    kable(digits = 3) %>%
-    kable_styling(
-      font_size = 15,
-      bootstrap_options = c("striped", "hover", "condensed")
-    )
+  if(input$ex_upload == "example"){
+    
+    if(input$num_factors == "two"){
+      
+      p <- make_egm_plot(data = dat, factors_n = "two")
+      
+    } else if(input$num_factors == "three"){
+      
+      p <-  make_egm_plot(data = dat, factors_n = "three")
+    }
+    
+  } else if(input$ex_upload == "up"){
+    
+    if(input$summary_raw == "esdat"){
+      
+      if(input$z == "None"){
+        
+        p <-  make_egm_plot(data = dat, factors_n = "two")
+        
+      } else{
+        
+        p <-  make_egm_plot(data = dat, factors_n = "three")
+      }
+      
+    } else if(input$summary_raw == "sumdat"){
+      
+      if(input$zsum == "None"){
+        
+        p <-  make_egm_plot(data = dat, factors_n = "two")
+        
+      } else{
+        
+        p <-  make_egm_plot(data = dat, factors_n = "three")
+      }
+    }
+    
+  }
   
-  
+  p
   
 })
 
 
-tabPanel("Meta Analysis Results",
-         htmlOutput("meta")),
