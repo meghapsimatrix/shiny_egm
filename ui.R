@@ -118,13 +118,13 @@ ui <- fluidPage(
               fluidRow(br(),br(),br())
               ),
               
-              tabPanel("Set Parameters",
+              tabPanel("Create Summary Data",
+                       
                        br(),
-
-                       fluidRow(
-                         column(4,
+                       sidebarPanel("",
+                                  
                                 
-                                conditionalPanel(
+                              conditionalPanel(
                                   
                                   condition = "input.ex_upload == 'up' & input.summary_raw == 'sumdat'",
                                   
@@ -133,7 +133,7 @@ ui <- fluidPage(
                                 ),
                                 
                                 
-                                conditionalPanel(
+                              conditionalPanel(
 
                                   condition = "input.ex_upload == 'example' || 
                                                input.ex_upload == 'up' & input.summary_raw == 'esdat'",
@@ -148,23 +148,27 @@ ui <- fluidPage(
                                               min = 0, max = 1, value = 0.8),
                                 ),
                                 
+                                br(),
+                                actionButton("go", "Create Summary Data"),
+                                
                                 
                          ),
+                       
+                       mainPanel("",
+                                 fluidRow(br(),br()),
+                                 dataTableOutput("contents")
+                                )
                          
 
-                         
-                         
-                       ),
-                       fluidRow(br(),br(),br())
               ),
 
 
   
-              tabPanel("Run Analyses and Examine",
-                       br(),
-                       actionButton("go", "Create Summary Data"),
-                       fluidRow(br(),br()),
-                       dataTableOutput("contents")),
+              # tabPanel("Run Analyses and Examine",
+              #          br(),
+              #          actionButton("go", "Create Summary Data"),
+              #          fluidRow(br(),br()),
+              #          dataTableOutput("contents")),
               
               tabPanel("Evidence Gap Map",
                        

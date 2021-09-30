@@ -275,7 +275,7 @@ server <-
     })
     
     
-    output$noparam <- renderText({ "Because you want to use summary data, no need to set the parameters." })
+    output$noparam <- renderText({ "Because you want to use summary data, no need to set the parameters. Please click the button below to output the data." })
     
     # clean the data ----------------------------------------------------------
     
@@ -661,30 +661,84 @@ server <-
         
       }
       
+      # clean data 
+
+      if(input$ex_upload == "example"){
+
+
+        if(input$num_factors == "two"){
+
+          clean_dat <- c(
+            parse_code_chunk("dat_example_two",
+                                  args = list(user_params = paste(c("factor_1", "factor_2", "es", "var", "studyid"), collapse = '", "'),
+                                              user_mod = input$model,
+                                              user_rho = input$rho)),
+            ''
+          )
+
+        } else if(input$num_factors == "three"){
+
+          clean_dat <- c(
+            parse_code_chunk("dat_example_three",
+                             args = list(user_params = paste(c("factor_1", "factor_2", "factor_3", "es", "var", "studyid"), collapse = '", "'),
+                                         user_mod = input$model,
+                                         user_rho = input$rho)),
+            ''
+          )
+
+        }
+
+      } else if(input$ex_upload == "up"){
+        
+        if(input$summary_raw == "esdat"){
+          
+          es <- input$effectsize
+          var <- input$variance
+          study_id <- input$studyid
+          factor_1<- input$x
+          factor_2 <- input$y
+          
+          
+          
+          if(input$z == "None"){
       
-      # 
-      # if(input$ex_upload == "example"){
-      #   
-      #   
-      #   if(input$num_factors == "two"){
-      #     
-      #     clean_dat <- c(
-      #       parse_code_chunk("dat_example",
-      #                             args = list(user_params = c("factor_1", "factor_2", "es", "var", "studyid"))),
-      #       ''
-      #     )
-      #     
-      #   } else if(input$num_factors == "three"){
-      #     
-      #     clean_dat <- c(
-      #       parse_code_chunk("dat_example",
-      #                        args = list(user_params = c("factor_1", "factor_2", "factor_3", "es", "var", "studyid"))),
-      #       ''
-      #     )
-      #     
-      #   }
-      #   
-      # }
+            
+            clean_dat <- c(
+              parse_code_chunk("dat_set_two",
+                               args = list(user_params = paste(c(factor_1, factor_2, es, var, study_id), collapse = '", "'),
+                                           user_mod = input$model,
+                                           user_rho = input$rho)),
+              ''
+            )
+            
+          }
+          
+          else if(input$z != "None"){
+          
+              factor_3 <- input$z  
+              
+              clean_dat <- c(
+                parse_code_chunk("dat_set_three",
+                                 args = list(user_params = paste(c(factor_1, factor_2, factor_3, es, var, study_id), collapse = '", "'),
+                                             user_mod = input$model,
+                                             user_rho = input$rho)),
+                ''
+              )
+            
+            
+            
+          }
+          
+        }
+        
+      }
+            
+        
+        
+    
+      
+      res <- c(header_res, read_res, clean_dat)
+      paste(res, collapse = "\n")
       
     })
     
