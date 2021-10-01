@@ -46,7 +46,7 @@ server <-
       label = 'Which model do you want to use to calculate the average effect sizes?',
       choices = c("Correlated and Hierarchical Effects Model" = "che",
                   "Correlated Effects Model" = "ce",
-                  "Hiearchical Effects Model" = "he"),
+                  "Hierarchical Effects Model" = "he"),
       selected = "che"
     )
     
