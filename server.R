@@ -74,7 +74,7 @@ server <-
     updateTextInput(
       session,
       inputId = "pname",
-      label = "Download Plot: Download Plot: Please specify the name of the plot.",
+      label = "Download Plot: Please specify the name of the plot.",
       value = "egm_plot.png"
     )
 
