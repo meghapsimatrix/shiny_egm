@@ -288,7 +288,11 @@ server <-
         
         if(input$num_factors == "two"){
           
-          shinybusy::show_modal_spinner(text = "Estimating...") 
+          if(modType() == "che"){
+          shinybusy::show_modal_spinner(text = "Estimating...The CHE model takes a while to run, please be patient.") 
+          } else {
+            shinybusy::show_modal_spinner(text = "Estimating...") 
+          }
           
             dat <- 
               dat %>%
@@ -302,7 +306,11 @@ server <-
 
         } else if(input$num_factors == "three"){
           
-          shinybusy::show_modal_spinner(text = "Estimating...") 
+          if(modType() == "che"){
+            shinybusy::show_modal_spinner(text = "Estimating...The CHE model takes a while to run, please be patient.") 
+          } else {
+            shinybusy::show_modal_spinner(text = "Estimating...") 
+          }
           
           dat <- 
             dat %>%
@@ -344,8 +352,11 @@ server <-
                                 factor_1 = x, 
                                 factor_2 = y)
               
-              shinybusy::show_modal_spinner(text = "Estimating...") 
-              
+              if(modType() == "che"){
+                shinybusy::show_modal_spinner(text = "Estimating...The CHE model takes a while to run, please be patient.") 
+              } else {
+                shinybusy::show_modal_spinner(text = "Estimating...") 
+              }              
               
               dat <- 
                 dat %>%
@@ -370,8 +381,11 @@ server <-
                                 factor_2 = y,
                                 factor_3 = z)
               
-              shinybusy::show_modal_spinner(text = "Estimating...") 
-              
+              if(modType() == "che"){
+                shinybusy::show_modal_spinner(text = "Estimating...The CHE model takes a while to run, please be patient.") 
+              } else {
+                shinybusy::show_modal_spinner(text = "Estimating...") 
+              }              
               
               dat <- 
                 dat %>%
