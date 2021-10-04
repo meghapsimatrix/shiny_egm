@@ -59,17 +59,19 @@ server <-
     
     updateSliderInput(
       session,
-      inputId = 'height',
-      label = "Download Plot: Please specify the height (in).",
+      inputId = 'width',
+      label = "Download Plot: Please specify the width (in).",
       min = 1, max = 15, value = 7
     )
     
     updateSliderInput(
       session,
-      inputId = 'width',
-      label = "Download Plot: Please specify the width (in).",
+      inputId = 'height',
+      label = "Download Plot: Please specify the height (in).",
       min = 1, max = 15, value = 7
     )
+    
+
     
     updateTextInput(
       session,

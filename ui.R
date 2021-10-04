@@ -180,10 +180,11 @@ ui <- fluidPage(
                                                             "Nothing" = "nothing"), 
                                                 selected = "nothing"),
                                     textInput("pname", label = "Download Plot: Please specify the name of the plot.", value = "egm_plot.png"),
-                                    sliderInput("height", "Download Plot: Please specify the height (in).",
-                                                min = 1, max = 15, value = 7),
                                     sliderInput("width", "Download Plot: Please specify the width (in).",
+                                                min = 1, max = 15, value = 7),
+                                    sliderInput("height", "Download Plot: Please specify the height (in).",
                                                 min = 1, max = 15, value = 7)
+
 
                        ), 
                        mainPanel("",
