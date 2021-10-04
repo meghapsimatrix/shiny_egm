@@ -720,9 +720,24 @@ server <-
       
             
             clean_dat <- c(
-              parse_code_chunk("dat_set_two",
-                               args = list(user_params = paste(c(factor_1, factor_2, es, var, study_id), collapse = '", "'),
-                                           user_mod = input$model,
+              parse_code_chunk("clean_input_dat_two",
+                               args = list(user_params = paste(c(factor_1, factor_2, es, var, study_id), collapse = '", "'))),
+              ''
+            )
+            
+            if(input$sevar == "se"){
+              
+             se_dat <- c(parse_code_chunk("change_se",
+                               args = list(user_params = NULL)),
+                         
+                ''
+             )
+              
+            }
+            
+            sum_dat <- c(
+              parse_code_chunk("summarize_two",
+                               args = list(user_mod = input$model,
                                            user_rho = input$rho)),
               ''
             )
@@ -734,9 +749,24 @@ server <-
               factor_3 <- input$z  
               
               clean_dat <- c(
-                parse_code_chunk("dat_set_three",
-                                 args = list(user_params = paste(c(factor_1, factor_2, factor_3, es, var, study_id), collapse = '", "'),
-                                             user_mod = input$model,
+                parse_code_chunk("clean_input_dat_three",
+                                 args = list(user_params = paste(c(factor_1, factor_2, factor_3, es, var, study_id), collapse = '", "'))),
+                ''
+              )
+              
+              if(input$sevar == "se"){
+                
+                se_dat <- c(parse_code_chunk("change_se",
+                                             args = list(user_params = NULL)),
+                            
+                            ''
+                )
+                
+              }
+              
+              sum_dat <- c(
+                parse_code_chunk("summarize_three",
+                                 args = list(user_mod = input$model,
                                              user_rho = input$rho)),
                 ''
               )
@@ -751,9 +781,14 @@ server <-
             
         
         
-    
       
-      res <- c(header_res, read_res, clean_dat)
+      if(input$sevar == "se"){
+      res <- c(header_res, read_res, clean_dat, se_dat, sum_dat)
+      } else{
+      res <- c(header_res, read_res, clean_dat, sum_dat)
+      }
+      
+      
       paste(res, collapse = "\n")
       
     })

@@ -1,3 +1,2 @@
-dat <- 
-  dat %>%
+dat <- dat %>%
   mutate(var = var^2)
