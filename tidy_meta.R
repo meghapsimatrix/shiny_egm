@@ -58,7 +58,7 @@ tidy_meta <- function(dat,
     # fit random effects working model in metafor
     mod <- rma.mv(es ~ 1,
                   V = V_mat, 
-                  random = ~ 1 | study_id,
+                  random = ~ 1 | study_id,  # won't converge if 1 | study_id / esid
                   data = dat,
                   sparse = TRUE)
     
