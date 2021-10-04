@@ -641,6 +641,10 @@ server <-
         '# Load packages',
         'library(tidyverse)',
         'library(metafor)',
+        'library(robumeta)',
+        'library(clubSandwich)',
+        'library(estimatr)',
+        'library(ggstance)',
         ''
       )
       
@@ -649,7 +653,7 @@ server <-
       if(input$ex_upload == "example") {
         
         read_res <- c(
-          parse_code_chunk("load_example", args = list(path = "example/example_dat_clean.csv")),
+          parse_code_chunk("load_example", args = list(path = "https://raw.githubusercontent.com/meghapsimatrix/shiny_egm/main/example/example_dat_clean.csv")),
           ''
         )
 
@@ -686,18 +690,32 @@ server <-
 
           clean_dat <- c(
             parse_code_chunk("dat_example_two",
-                                  args = list(user_params = paste(c("factor_1", "factor_2", "es", "var", "studyid"), collapse = '", "'),
-                                              user_mod = input$model,
-                                              user_rho = input$rho)),
+                                  args = list(user_params = paste(c("factor_1", "factor_2", "es", "var", "studyid"), 
+                                                                  collapse = '", "'))),
             ''
           )
+          
+          sum_dat <- c(
+            parse_code_chunk("summarize_two",
+                             args = list(user_mod = input$model,
+                                         user_rho = input$rho)),
+            ''
+          )
+          
+          
 
         } else if(input$num_factors == "three"){
 
           clean_dat <- c(
             parse_code_chunk("dat_example_three",
-                             args = list(user_params = paste(c("factor_1", "factor_2", "factor_3", "es", "var", "studyid"), collapse = '", "'),
-                                         user_mod = input$model,
+                             args = list(user_params = paste(c("factor_1", "factor_2", "factor_3", "es", "var", "studyid"), 
+                                                             collapse = '", "'))),
+            ''
+          )
+          
+          sum_dat <- c(
+            parse_code_chunk("summarize_three",
+                             args = list(user_mod = input$model,
                                          user_rho = input$rho)),
             ''
           )
@@ -775,6 +793,86 @@ server <-
             
           }
           
+        }
+        
+        else if(input$summary_raw == "sumdat"){
+          
+          factor_1 <- input$xsum
+          factor_2 <- input$ysum
+          n_studies <- input$nstudy
+          
+          
+          if(input$zsum == "None"){
+            
+            if(input$aves != "None"){
+              
+            avg_es <- input$aves
+              
+            clean_dat <- c(
+              parse_code_chunk("clean_input_sum_dat_two_aves",
+                               args = list(user_params = paste(c(factor_1, factor_2, n_studies, avg_es), 
+                                                               collapse = '", "'))),
+              ''
+            )
+            
+            } else if(input$aves == "None"){
+              
+              clean_dat <- c(
+                parse_code_chunk("clean_input_sum_dat_two",
+                                 args = list(user_params = paste(c(factor_1, factor_2, n_studies), 
+                                                                 collapse = '", "'))),
+                ''
+              )
+              
+            }
+            
+            sum_dat <- c(
+              parse_code_chunk("summarize_two",
+                               args = list(user_mod = input$model,
+                                           user_rho = input$rho)),
+              ''
+            )
+            
+
+            
+          } else if(input$zsum != "None"){
+            
+            factor_3 <- input$zsum
+            
+            if(input$aves != "None"){
+              
+              avg_es <- input$aves
+              
+              clean_dat <- c(
+                parse_code_chunk("clean_input_sum_dat_three_aves",
+                                 args = list(user_params = paste(c(factor_1, factor_2, factor_3, n_studies, avg_es), 
+                                                                 collapse = '", "'))),
+                ''
+              )
+              
+            } else if(input$aves == "None"){
+              
+              clean_dat <- c(
+                parse_code_chunk("clean_input_sum_dat_three",
+                                 args = list(user_params = paste(c(factor_1, factor_2, factor_3, n_studies), 
+                                                                 collapse = '", "'))),
+                ''
+              )
+              
+            }
+            
+            sum_dat <- c(
+              parse_code_chunk("summarize_three",
+                               args = list(user_mod = input$model,
+                                           user_rho = input$rho)),
+              ''
+            )
+            
+            
+          }
+          
+        
+        
         }
         
       }

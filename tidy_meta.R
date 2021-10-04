@@ -71,6 +71,15 @@ tidy_meta <- function(dat,
     
   }
     
+  } else if(n == 1){
+    
+    res <- tibble(estimate = dat$es,
+             SE = sqrt(dat$var), 
+             df = NA, 
+             CI_L = NA, 
+             CI_U = NA, 
+             method = "Raw ES")
+  
   } else{
       
     suppressWarnings(mod <- lm_robust(es ~ 1, data = dat, se_type = "classical"))
