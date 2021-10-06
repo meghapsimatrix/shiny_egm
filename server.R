@@ -876,6 +876,171 @@ server <-
         }
         
       }
+        
+        
+        if(input$overlay == "nstudy"){
+          
+          if(input$ex_upload == "example"){
+            
+            if(input$num_factors == "two"){
+              
+              add_n_text_dat <- c(
+                parse_code_chunk("overlay_nstudies_two",
+                                 args = list(user_params = NULL)),
+                ''
+              )
+              
+            } else if(input$num_factors == "three"){
+              
+              add_n_text_dat <- c(
+                parse_code_chunk("overlay_nstudies_three",
+                                 args = list(user_params = NULL)),
+                ''
+              )
+              
+              
+            }
+            
+          } else if(input$ex_upload == "up"){
+            
+            
+            if(input$summary_raw == "esdat"){
+              
+              if(input$z == "None"){
+                
+                add_n_text_dat <- c(
+                  parse_code_chunk("overlay_nstudies_two",
+                                   args = list(user_params = NULL)),
+                  ''
+                )
+                
+              } else if(input$z != "None"){
+                
+                add_n_text_dat <- c(
+                  parse_code_chunk("overlay_nstudies_three",
+                                   args = list(user_params = NULL)),
+                  ''
+                )
+                
+              } 
+            }
+            else if(input$summary_raw == "sumdat"){
+              
+              if(input$zsum == "None"){
+                
+                add_n_text_dat <- c(
+                  parse_code_chunk("overlay_nstudies_two",
+                                   args = list(user_params = NULL)),
+                  ''
+                )
+                
+              } else if(input$zsum != "None"){
+                
+                add_n_text_dat <- c(
+                  parse_code_chunk("overlay_nstudies_three",
+                                   args = list(user_params = NULL)),
+                  ''
+                )
+                
+              } 
+            }
+            
+          }
+        }
+      
+      
+      else if(input$overlay == "aves"){
+        
+        
+        if(input$ex_upload == "example"){
+          
+          if(input$num_factors == "two"){
+            
+            add_est_text_dat <- c(
+              parse_code_chunk("overlay_estimate_two",
+                               args = list(user_params = NULL)),
+              ''
+            )
+            
+            
+          } else if(input$num_factors == "three"){
+            
+            add_est_text_dat <- c(
+              parse_code_chunk("overlay_estimate_three",
+                               args = list(user_params = NULL)),
+              ''
+            )
+            
+            
+          }
+          
+        } else if(input$ex_upload == "up"){
+          
+          
+          if(input$summary_raw == "esdat"){
+            
+            if(input$z == "None"){
+              
+              add_est_text_dat <- c(
+                parse_code_chunk("overlay_estimate_two",
+                                 args = list(user_params = NULL)),
+                ''
+              )
+              
+            } else if(input$z != "None"){
+              
+              add_est_text_dat <- c(
+                parse_code_chunk("overlay_estimate_three",
+                                 args = list(user_params = NULL)),
+                ''
+              )
+              
+            } 
+          }
+          
+          
+          else if(input$summary_raw == "sumdat"){
+            
+            if(input$aves != "None"){
+              
+              if(input$zsum == "None"){
+                
+                add_est_text_dat <- c(
+                  parse_code_chunk("overlay_estimate_two",
+                                   args = list(user_params = NULL)),
+                  ''
+                )
+                
+              } else if(input$zsum != "None"){
+                
+                add_est_text_dat <- c(
+                  parse_code_chunk("overlay_estimate_three",
+                                   args = list(user_params = NULL)),
+                  ''
+                )
+                
+              }
+            } else if(input$aves == "None"){
+              
+              add_est_text_dat <- c('')
+              
+            }
+            
+          }
+          
+          
+        }
+      }
+        
+        
+      final_output <- c(
+        'p',
+        '',
+        '',
+        '#can use ggsave to save the plot can also adjust height, width, dpi',
+        '#ggsave(p, egm_plot.png, device = "png")'
+        )  
+      
             
         
         
@@ -885,6 +1050,19 @@ server <-
       } else{
       res <- c(header_res, read_res, clean_dat, sum_dat)
       }
+      
+      if(input$overlay == "nstudy"){
+        
+        res <- c(res, add_n_text_dat)
+        
+      }
+      
+      if(input$overlay == "aves"){
+        
+        res <- c(res, add_est_text_dat)
+      }
+      
+      res <- c(res, final_output)
       
       
       paste(res, collapse = "\n")
