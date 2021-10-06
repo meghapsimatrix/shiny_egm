@@ -90,8 +90,6 @@ tidy_meta <- function(dat,
     
   } 
   
-  # figure out how to output if combination has only one effect size  
-
   
   output <- bind_cols(res, summary) %>%
     mutate_if(is.numeric, round, 3) 
