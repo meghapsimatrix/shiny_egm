@@ -690,7 +690,7 @@ server <-
 
           clean_dat <- c(
             parse_code_chunk("dat_example_two",
-                                  args = list(user_params = paste(c("factor_1", "factor_2", "es", "var", "studyid"), 
+                                  args = list(user_params = paste(c("factor_1", "factor_2", "es", "var", "study_id"), 
                                                                   collapse = '", "'))),
             ''
           )
@@ -708,7 +708,7 @@ server <-
 
           clean_dat <- c(
             parse_code_chunk("dat_example_three",
-                             args = list(user_params = paste(c("factor_1", "factor_2", "factor_3", "es", "var", "studyid"), 
+                             args = list(user_params = paste(c("factor_1", "factor_2", "factor_3", "es", "var", "study_id"), 
                                                              collapse = '", "'))),
             ''
           )

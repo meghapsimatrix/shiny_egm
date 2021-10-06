@@ -1,5 +1,5 @@
 dat <- dat[, c("{user_params}")]
-names(dat) <- c("factor_1", "factor_2", "es", "var", "studyid")
+names(dat) <- c("factor_1", "factor_2", "es", "var", "study_id")
 
 source('tidy_meta.R')
 
