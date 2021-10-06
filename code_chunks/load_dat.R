@@ -1,3 +1,5 @@
+# Load data and clean -----------------------------------------------------
+
 # Load data
 library(janitor)
 
