@@ -827,9 +827,8 @@ server <-
             }
             
             sum_dat <- c(
-              parse_code_chunk("summarize_two",
-                               args = list(user_mod = input$model,
-                                           user_rho = input$rho)),
+              parse_code_chunk("no_sum_two",
+                               args = list(user_params = NULL)),
               ''
             )
             
@@ -862,9 +861,8 @@ server <-
             }
             
             sum_dat <- c(
-              parse_code_chunk("summarize_three",
-                               args = list(user_mod = input$model,
-                                           user_rho = input$rho)),
+              parse_code_chunk("no_sum_three",
+                               args = list(user_params = NULL)),
               ''
             )
             
