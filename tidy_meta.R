@@ -2,6 +2,11 @@ tidy_meta <- function(dat,
                       model, 
                       rho_val){
   
+  dat <- dat %>%
+    group_by(study_id) %>%
+    mutate(es_id = row_number()) %>%
+    ungroup()
+  
   summary <- dat %>% 
     summarize(n_studies = n_distinct(study_id),
               n_es = n())
@@ -9,7 +14,7 @@ tidy_meta <- function(dat,
   m <- summary %>% pull(n_studies)
   n <- summary %>% pull(n_es)
   
-  if(m > 2){
+  if(m > 3){
     
     if(model == "ce"){
       
@@ -53,7 +58,7 @@ tidy_meta <- function(dat,
     # fit random effects working model in metafor
     mod <- rma.mv(es ~ 1,
                   V = V_mat, 
-                  random = ~ 1 | study_id,  # won't converge if 1 | study_id / esid
+                  random = ~ 1 | study_id/es_id,  
                   data = dat,
                   sparse = TRUE)
     
