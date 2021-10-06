@@ -1,8 +1,3 @@
-library(robumeta)
-library(clubSandwich)
-library(tidyverse)
-library(metafor)
-
 tidy_meta <- function(dat, 
                       model, 
                       rho_val){
