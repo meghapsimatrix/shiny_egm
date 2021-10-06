@@ -1,5 +1,10 @@
-source('tidy_meta.R')
+# Create Summary Data -----------------------------------------------------
 
+
+# this loads a function that calculates number of studies and estimates average effects
+source('https://raw.githubusercontent.com/meghapsimatrix/shiny_egm/main/tidy_meta.R')
+
+# group by factors and then run tidy_meta function through each combination 
 summary_dat <- 
   dat %>%
   group_by(factor_1, factor_2, factor_3) %>%
@@ -7,6 +12,9 @@ summary_dat <-
                            model = "{user_mod}", 
                            rho_val = {user_rho})) %>%
   ungroup()
+
+
+# Create EGM plot ---------------------------------------------------------
 
 # from colorblindr package https://github.com/clauswilke/colorblindr
 palette_OkabeIto <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")

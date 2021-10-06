@@ -1,5 +1,10 @@
-source('tidy_meta.R')
+# Create Summary Data -----------------------------------------------------
 
+
+# this loads a function that calculates number of studies and estimates average effects
+source('https://raw.githubusercontent.com/meghapsimatrix/shiny_egm/main/tidy_meta.R')
+
+# group by factors and then run tidy_meta function through each combination 
 summary_dat <- 
   dat %>%
   group_by(factor_1, factor_2) %>%
@@ -8,6 +13,9 @@ summary_dat <-
                            rho_val = {user_rho})) %>%
   ungroup()
 
+
+
+# Create EGM plot ---------------------------------------------------------
 
 p <- ggplot(summary_dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
   geom_point(alpha = 0.6, color = "skyblue") + 
