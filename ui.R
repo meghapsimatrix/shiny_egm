@@ -185,7 +185,7 @@ ui <- fluidPage(
                                                             selected = "nothing"),
                                                 textInput("xlabel", label = "Please specify the label for the x-axis.", value = ""),
                                                 textInput("ylabel", label = "Please specify the label for the y-axis.", value = ""),
-                                                actionButton("plot", "Create Plot"),
+                                                actionButton("plot", "Create Plot")
                                                 
                                       ),
                                       
@@ -195,9 +195,9 @@ ui <- fluidPage(
                                                            min = 1, max = 15, value = 7),
                                                sliderInput("height", "Download Plot: Please specify the height (in).",
                                                            min = 1, max = 15, value = 7),
-                                               downloadButton('dndPlot','Download Plot'),   
+                                               downloadButton('dndPlot','Download Plot')
                                                
-                                      ),
+                                      )
                                       
                                     ),
 
