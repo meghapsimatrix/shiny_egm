@@ -177,7 +177,8 @@ ui <- fluidPage(
                                     tabsetPanel(
                                       tabPanel("Create Plot",
                                     
-                                                selectInput("overlay", label = "What do you want to overlay on the dots?",
+                                                selectInput("overlay", 
+                                                            label = "What do you want to overlay on the dots?",
                                                             choices = c("Number of Studies" = "nstudy", 
                                                                         "Average Effect Size" = "aves", 
                                                                         "Nothing" = "nothing"), 
