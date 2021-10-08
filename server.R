@@ -79,6 +79,27 @@ server <-
       label = "Download Plot: Please specify the name of the plot.",
       value = "egm_plot.png"
     )
+    
+    updateTextInput(
+      session,
+      inputId = "xlabel",
+      label = "Please specify the label for the x-axis.",
+      value = ""
+    )
+    
+    updateTextInput(
+      session,
+      inputId = "ylabel",
+      label = "Please specify the label for the y-axis.",
+      value = ""
+    )
+    
+    updateTextInput(
+      session,
+      inputId = "pname",
+      label = "Download Plot: Please specify the name of the plot.",
+      value = "egm_plot.png"
+    )
 
     
     updateSelectInput(
@@ -276,6 +297,18 @@ server <-
       input$pname
     })
     
+    xlabel <- reactive({
+      
+      input$xlabel
+      
+    })
+    
+    ylabel <- reactive({
+      
+      input$ylabel
+      
+    })
+    
     
     output$noparam <- renderText({ "Because you want to use summary data, no need to set the parameters. Please click the button below to output the data." })
     
@@ -462,7 +495,7 @@ server <-
     })
     
     
-   plot_obj <- reactive({
+   plot_obj <- eventReactive(input$plot, {
       
       dat <- datClean()
       
@@ -470,11 +503,11 @@ server <-
         
         if(input$num_factors == "two"){
           
-          p <- make_egm_plot(data = dat, factors_n = "two")
+          p <- make_egm_plot(data = dat, factors_n = "two", xlabel = xlabel(), ylabel = ylabel())
           
         } else if(input$num_factors == "three"){
           
-          p <-  make_egm_plot(data = dat, factors_n = "three")
+          p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel())
         }
         
       } else if(input$ex_upload == "up"){
@@ -483,22 +516,22 @@ server <-
           
           if(input$z == "None"){
             
-            p <-  make_egm_plot(data = dat, factors_n = "two")
+            p <-  make_egm_plot(data = dat, factors_n = "two", xlabel = xlabel(), ylabel = ylabel())
             
           } else{
             
-            p <-  make_egm_plot(data = dat, factors_n = "three")
+            p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel())
           }
           
         } else if(input$summary_raw == "sumdat"){
           
           if(input$zsum == "None"){
             
-            p <-  make_egm_plot(data = dat, factors_n = "two")
+            p <-  make_egm_plot(data = dat, factors_n = "two", xlabel = xlabel(), ylabel = ylabel())
             
           } else{
             
-            p <-  make_egm_plot(data = dat, factors_n = "three")
+            p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel())
           }
         }
         
@@ -698,7 +731,9 @@ server <-
           sum_dat <- c(
             parse_code_chunk("summarize_two",
                              args = list(user_mod = input$model,
-                                         user_rho = input$rho)),
+                                         user_rho = input$rho,
+                                         user_x = input$xlabel,
+                                         user_y = input$ylabel)),
             ''
           )
           
@@ -716,7 +751,9 @@ server <-
           sum_dat <- c(
             parse_code_chunk("summarize_three",
                              args = list(user_mod = input$model,
-                                         user_rho = input$rho)),
+                                         user_rho = input$rho,
+                                         user_x = input$xlabel,
+                                         user_y = input$ylabel)),
             ''
           )
 
@@ -756,7 +793,9 @@ server <-
             sum_dat <- c(
               parse_code_chunk("summarize_two",
                                args = list(user_mod = input$model,
-                                           user_rho = input$rho)),
+                                           user_rho = input$rho,
+                                           user_x = input$xlabel,
+                                           user_y = input$ylabel)),
               ''
             )
             
@@ -785,7 +824,9 @@ server <-
               sum_dat <- c(
                 parse_code_chunk("summarize_three",
                                  args = list(user_mod = input$model,
-                                             user_rho = input$rho)),
+                                             user_rho = input$rho,
+                                             user_x = input$xlabel,
+                                             user_y = input$ylabel)),
                 ''
               )
             
@@ -828,7 +869,8 @@ server <-
             
             sum_dat <- c(
               parse_code_chunk("no_sum_two",
-                               args = list(user_params = NULL)),
+                               args = list(user_x = input$xlabel,
+                                           user_y = input$ylabel)),
               ''
             )
             
@@ -862,7 +904,8 @@ server <-
             
             sum_dat <- c(
               parse_code_chunk("no_sum_three",
-                               args = list(user_params = NULL)),
+                               args = list(user_x = input$xlabel,
+                                           user_y = input$ylabel)),
               ''
             )
             

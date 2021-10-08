@@ -1,12 +1,12 @@
 palette_OkabeIto <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
 
-make_egm_plot <- function(data, factors_n){
+make_egm_plot <- function(data, factors_n, xlabel, ylabel){
 
   if(factors_n == "two"){
     
   p <- ggplot(data, aes(x = factor_1, y = factor_2, size = n_studies)) + 
     geom_point(alpha = 0.6, color = "skyblue") + 
-    labs(x = "", y = "") +
+    labs(x = xlabel, y = ylabel) +
     scale_size_identity() +
     scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
     scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
@@ -20,7 +20,7 @@ make_egm_plot <- function(data, factors_n){
                          size = n_studies, color = factor_3)) + 
       geom_point(alpha = 0.6, aes(group = factor_3), 
                  position = position_dodge(width= 0.5)) + 
-      labs(x = "", y = "", color = "") +
+      labs(x = xlabel, y = ylabel, color = "") +
       scale_size_identity() +
       scale_color_manual(values = palette_OkabeIto) +
       scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +

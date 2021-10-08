@@ -174,21 +174,37 @@ ui <- fluidPage(
                        
                        br(),
                        sidebarPanel("",
-                                    selectInput("overlay", label = "What do you want to overlay on the dots?",
-                                                choices = c("Number of Studies" = "nstudy", 
-                                                            "Average Effect Size" = "aves", 
-                                                            "Nothing" = "nothing"), 
-                                                selected = "nothing"),
-                                    textInput("pname", label = "Download Plot: Please specify the name of the plot.", value = "egm_plot.png"),
-                                    sliderInput("width", "Download Plot: Please specify the width (in).",
-                                                min = 1, max = 15, value = 7),
-                                    sliderInput("height", "Download Plot: Please specify the height (in).",
-                                                min = 1, max = 15, value = 7)
+                                    tabsetPanel(
+                                      tabPanel("Create Plot",
+                                    
+                                                selectInput("overlay", label = "What do you want to overlay on the dots?",
+                                                            choices = c("Number of Studies" = "nstudy", 
+                                                                        "Average Effect Size" = "aves", 
+                                                                        "Nothing" = "nothing"), 
+                                                            selected = "nothing"),
+                                                textInput("xlabel", label = "Please specify the label for the x-axis.", value = ""),
+                                                textInput("ylabel", label = "Please specify the label for the y-axis.", value = ""),
+                                                actionButton("plot", "Create Plot"),
+                                                
+                                      ),
+                                      
+                                      tabPanel("Download Plot",
+                                               textInput("pname", label = "Download Plot: Please specify the name of the plot.", value = "egm_plot.png"),
+                                               sliderInput("width", "Download Plot: Please specify the width (in).",
+                                                           min = 1, max = 15, value = 7),
+                                               sliderInput("height", "Download Plot: Please specify the height (in).",
+                                                           min = 1, max = 15, value = 7),
+                                               downloadButton('dndPlot','Download Plot'),   
+                                               
+                                      ),
+                                      
+                                    ),
 
 
                        ), 
+                       
                        mainPanel("",
-                                 downloadButton('dndPlot','Download Plot'),
+                                 
                                  plotOutput("egmPlot")
                                  
                        )
