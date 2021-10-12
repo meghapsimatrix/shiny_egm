@@ -23,7 +23,7 @@ tidy_meta <- function(dat,
       res <- conf_int(mod, vcov = "CR2", tidy = TRUE) %>%
         rename(estimate = beta) %>%
         as_tibble() %>%
-        mutate(method = "CE")
+        mutate(method = "Correlated Effects") 
       
    
     
@@ -34,24 +34,27 @@ tidy_meta <- function(dat,
                   df = NA, 
                   CI_L = NA, 
                   CI_U = NA, 
-                  method = "Raw ES")
+                  method = "Raw Effect Size")
     
   } else{
     
-    suppressWarnings(mod <- lm_robust(es ~ 1, 
-                                      data = dat, 
-                                      weights = 1 /var,
-                                      se_type = "classical"))
+    suppressWarnings(mod <- rma.uni(yi = es,
+                                    vi = var,
+                                    data = dat))
     
     res <- tidy(mod) %>%
-      select(estimate, SE = std.error, df = df, CI_L = conf.low, CI_U = conf.high) %>%
-      mutate(method = "Simple Weighted Average")
+      dplyr::select(estimate, SE = std.error) %>%
+      mutate(df = NA,
+             CI_L = mod$ci.lb,
+             CI_U = mod$ci.ub) %>%
+      mutate(method = "Univariate Random Effects")
     
   } 
   
   
   output <- bind_cols(res, summary) %>%
-    mutate_if(is.numeric, round, 3) 
+    mutate_if(is.numeric, round, 3) %>%
+    select(method, estimate, n_studies, n_es)
   
   return(output)
 }

@@ -22,6 +22,17 @@ dat_sum <-
   group_modify(~ tidy_meta(.x)) %>%
   ungroup()
 
+suppressWarnings(mod <- rma.uni(yi = es,
+                                vi = var,
+                                data = dat))
+
+res <- tidy(mod) %>%
+  dplyr::select(estimate, SE = std.error) %>%
+  mutate(df = NA,
+         CI_L = mod$ci.lb,
+         CI_U = mod$ci.ub) %>%
+  mutate(method = "Univariate Random Effects")
+
 
 #write_csv(dat_sum, "dat_sum_comma_3.csv")
 
