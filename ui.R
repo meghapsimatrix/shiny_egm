@@ -138,10 +138,10 @@ ui <- fluidPage(
                                   condition = "input.ex_upload == 'example' || 
                                                input.ex_upload == 'up' & input.summary_raw == 'esdat'",
                                   
-                                  radioButtons('model',
-                                               'Which model do you want to use to calculate the average effect sizes?',
-                                               c("Correlated Effects Model" = "ce",
-                                                 "Hierarchical Effects Model" = "he")),
+                                  # radioButtons('model',
+                                  #              'Which model do you want to use to calculate the average effect sizes?',
+                                  #              c("Correlated Effects Model" = "ce",
+                                  #                "Hierarchical Effects Model" = "he")),
                                   
                                   sliderInput("rho", "What value would you like to use for the within-study correlation between effect sizes?",
                                               min = 0, max = 1, value = 0.8),

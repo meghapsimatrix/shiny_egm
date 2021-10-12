@@ -1,5 +1,4 @@
 tidy_meta <- function(dat, 
-                      model, 
                       rho_val){
 
   
@@ -12,8 +11,7 @@ tidy_meta <- function(dat,
   
   if(m > 2){
     
-    if(model == "ce"){
-      
+
       mod <- robu(formula = es ~ 1,
                   data = dat,
                   var.eff.size = var,
@@ -27,23 +25,7 @@ tidy_meta <- function(dat,
         as_tibble() %>%
         mutate(method = "CE")
       
-    } else if(model == "he"){
-      
-      mod <- robu(formula = es ~ 1,
-                  data = dat,
-                  var.eff.size = var,
-                  modelweights = "HIER",
-                  rho = rho_val,
-                  studynum = study_id)
-      
-      
-      res <- conf_int(mod, vcov = "CR2", tidy = TRUE) %>%
-        rename(estimate = beta) %>%
-        as_tibble()  %>%
-        mutate(method = "HE")
-      
-      
-    } 
+   
     
   } else if(n == 1){
     
@@ -63,7 +45,7 @@ tidy_meta <- function(dat,
     
     res <- tidy(mod) %>%
       select(estimate, SE = std.error, df = df, CI_L = conf.low, CI_U = conf.high) %>%
-      mutate(method = "Simple Average")
+      mutate(method = "Simple Weighted Average")
     
   } 
   

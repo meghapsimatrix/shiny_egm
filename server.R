@@ -40,15 +40,15 @@ server <-
       selected = "var"
     )
     
-    updateRadioButtons(
-      session, 
-      inputId = 'model', 
-      label = 'Which model do you want to use to calculate the average effect sizes?',
-      choices = c("Correlated Effects Model" = "ce",
-                  "Hierarchical Effects Model" = "he"),
-      selected = "ce"
-    )
-    
+    # updateRadioButtons(
+    #   session, 
+    #   inputId = 'model', 
+    #   label = 'Which model do you want to use to calculate the average effect sizes?',
+    #   choices = c("Correlated Effects Model" = "ce",
+    #               "Hierarchical Effects Model" = "he"),
+    #   selected = "ce"
+    # )
+    # 
     updateSliderInput(
       session,
       inputId = 'rho',
@@ -250,12 +250,12 @@ server <-
 
     # Parameters --------------------------------------------------------------
     
-    modType <- eventReactive(input$go, {
-      
-      input$model
-      
-    })
-    
+    # modType <- eventReactive(input$go, {
+    #   
+    #   input$model
+    #   
+    # })
+    # 
 
     rho <- eventReactive(input$go, {
       
@@ -278,7 +278,6 @@ server <-
     plotname <- reactive({
       
       input$pname
-      
     })
     
     xlabel <- reactive({
@@ -292,7 +291,6 @@ server <-
       input$ylabel
       
     })
-    
     
     
     output$noparam <- renderText({ "Because you want to use summary data, no need to set the parameters. Please click the button below to output the data." })
@@ -316,7 +314,7 @@ server <-
               dat %>%
               group_by(factor_1, factor_2) %>%
               group_modify(~ tidy_meta(.x, 
-                                       model = modType(), 
+                                       #model = modType(), 
                                        rho_val = rho())) %>%
               ungroup()
           
@@ -332,7 +330,7 @@ server <-
             dat %>%
             group_by(factor_1, factor_2, factor_3) %>%
             group_modify(~ tidy_meta(.x, 
-                                     model = modType(), 
+                                     #model = modType(), 
                                      rho_val = rho())) %>%
             ungroup()
           
@@ -376,7 +374,7 @@ server <-
                 dat %>%
                 group_by(factor_1, factor_2) %>%
                 group_modify(~ tidy_meta(.x, 
-                                         model = modType(), 
+                                         #model = modType(), 
                                          rho_val = rho())) %>%
                 ungroup()
               
@@ -396,13 +394,13 @@ server <-
               
 
               shinybusy::show_modal_spinner(text = "Estimating...") 
-                           
+                          
               
               dat <- 
                 dat %>%
                 group_by(factor_1, factor_2, factor_3) %>%
                 group_modify(~ tidy_meta(.x, 
-                                         model = modType(), 
+                                         #model = modType(), 
                                          rho_val = rho())) %>%
                 ungroup()
               
@@ -653,7 +651,6 @@ server <-
         'library(robumeta)',
         'library(clubSandwich)',
         'library(estimatr)',
-        'library(ggstance)',
         ''
       )
       
@@ -706,7 +703,7 @@ server <-
           
           sum_dat <- c(
             parse_code_chunk("summarize_two",
-                             args = list(user_mod = input$model,
+                             args = list(#user_mod = input$model,
                                          user_rho = input$rho,
                                          user_x = input$xlabel,
                                          user_y = input$ylabel)),
@@ -726,7 +723,7 @@ server <-
           
           sum_dat <- c(
             parse_code_chunk("summarize_three",
-                             args = list(user_mod = input$model,
+                             args = list(#user_mod = input$model,
                                          user_rho = input$rho,
                                          user_x = input$xlabel,
                                          user_y = input$ylabel)),
@@ -768,7 +765,7 @@ server <-
             
             sum_dat <- c(
               parse_code_chunk("summarize_two",
-                               args = list(user_mod = input$model,
+                               args = list(#user_mod = input$model,
                                            user_rho = input$rho,
                                            user_x = input$xlabel,
                                            user_y = input$ylabel)),
@@ -799,7 +796,7 @@ server <-
               
               sum_dat <- c(
                 parse_code_chunk("summarize_three",
-                                 args = list(user_mod = input$model,
+                                 args = list(#user_mod = input$model,
                                              user_rho = input$rho,
                                              user_x = input$xlabel,
                                              user_y = input$ylabel)),
