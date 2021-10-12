@@ -52,7 +52,7 @@ server <-
     updateSliderInput(
       session,
       inputId = 'rho',
-      label = "What value would you like to use for the within-study correlation between effect sizes?",
+      label = "For the correlated effects model, what value would you like to use for the within-study correlation between effect sizes?",
       min = 0, max = 1, value = 0.8
     )
     
@@ -294,7 +294,12 @@ server <-
     
     
     output$noparam <- renderText({ "Because you want to use summary data, no need to set the parameters. Please click the button below to output the data." })
-    
+    output$explain <- renderText({  
+      paste0("This app calculates the average effect sizes using correlated effects model to account for dependence, for cells that have more than 2 studies.", 
+             "\nFor cells that have less than or equal to two studies but have more than one effect size estimate, the app runs a univariate random effects model.",
+             "\nFor cells that only have one effect size estimate, the app outputs the raw effect size estimate.")
+    })
+
     # clean the data ----------------------------------------------------------
     
     

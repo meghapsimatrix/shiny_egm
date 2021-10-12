@@ -143,7 +143,13 @@ ui <- fluidPage(
                                   #              c("Correlated Effects Model" = "ce",
                                   #                "Hierarchical Effects Model" = "he")),
                                   
-                                  sliderInput("rho", "What value would you like to use for the within-study correlation between effect sizes?",
+                                  
+                                  textOutput("explain"),
+
+                                  br(),
+                                  
+                                  sliderInput("rho",
+                                              "For the correlated effects model, what value would you like to use for the within-study correlation between effect sizes?",
                                               min = 0, max = 1, value = 0.8),
                                 ),
                                 
