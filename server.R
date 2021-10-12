@@ -44,10 +44,9 @@ server <-
       session, 
       inputId = 'model', 
       label = 'Which model do you want to use to calculate the average effect sizes?',
-      choices = c("Correlated and Hierarchical Effects Model" = "che",
-                  "Correlated Effects Model" = "ce",
+      choices = c("Correlated Effects Model" = "ce",
                   "Hierarchical Effects Model" = "he"),
-      selected = "che"
+      selected = "ce"
     )
     
     updateSliderInput(
@@ -140,16 +139,6 @@ server <-
         
         read_csv("example/example_dat_clean.csv")
         
-        # if(input$num_factors == "two"){
-        #   
-        #   read_csv("example/dat_sum_2.csv") 
-        # 
-        #   
-        # } else if(input$num_factors == "three"){
-        #   
-        #   read_csv("example/dat_sum_3.csv") 
-        #   
-        # }
       }
         
         
@@ -225,12 +214,6 @@ server <-
       selectInput("studyid", label = "Study ID: Please specify the variable with the study identifier.", choices = var_names, selected = var_names[1])
     })
     
-    # output$esidMapping <- renderUI({
-    #   var_names <- names(datFile())
-    #   selectInput("esid", label = "Effect Size ID: Please specify the variable with the effect size identifier.", choices = var_names, selected = var_names[1])
-    # })
-    # 
-    
     
     
     # summary data mapping ----------------------------------------------------
@@ -295,6 +278,7 @@ server <-
     plotname <- reactive({
       
       input$pname
+      
     })
     
     xlabel <- reactive({
@@ -310,6 +294,7 @@ server <-
     })
     
     
+    
     output$noparam <- renderText({ "Because you want to use summary data, no need to set the parameters. Please click the button below to output the data." })
     
     # clean the data ----------------------------------------------------------
@@ -323,11 +308,9 @@ server <-
         
         if(input$num_factors == "two"){
           
-          if(modType() == "che"){
-          shinybusy::show_modal_spinner(text = "Estimating...The CHE model takes a while to run, please be patient.") 
-          } else {
-            shinybusy::show_modal_spinner(text = "Estimating...") 
-          }
+
+          shinybusy::show_modal_spinner(text = "Estimating...") 
+          
           
             dat <- 
               dat %>%
@@ -341,11 +324,9 @@ server <-
 
         } else if(input$num_factors == "three"){
           
-          if(modType() == "che"){
-            shinybusy::show_modal_spinner(text = "Estimating...The CHE model takes a while to run, please be patient.") 
-          } else {
-            shinybusy::show_modal_spinner(text = "Estimating...") 
-          }
+
+          shinybusy::show_modal_spinner(text = "Estimating...") 
+          
           
           dat <- 
             dat %>%
@@ -387,11 +368,9 @@ server <-
                                 factor_1 = x, 
                                 factor_2 = y)
               
-              if(modType() == "che"){
-                shinybusy::show_modal_spinner(text = "Estimating...The CHE model takes a while to run, please be patient.") 
-              } else {
-                shinybusy::show_modal_spinner(text = "Estimating...") 
-              }              
+
+              shinybusy::show_modal_spinner(text = "Estimating...") 
+                         
               
               dat <- 
                 dat %>%
@@ -411,16 +390,13 @@ server <-
               dat <- data.frame(es = es,
                                 var = var,
                                 study_id = studyid,
-                                # es_id = esid,
                                 factor_1 = x, 
                                 factor_2 = y,
                                 factor_3 = z)
               
-              if(modType() == "che"){
-                shinybusy::show_modal_spinner(text = "Estimating...The CHE model takes a while to run, please be patient.") 
-              } else {
-                shinybusy::show_modal_spinner(text = "Estimating...") 
-              }              
+
+              shinybusy::show_modal_spinner(text = "Estimating...") 
+                           
               
               dat <- 
                 dat %>%

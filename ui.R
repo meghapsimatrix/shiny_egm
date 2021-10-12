@@ -140,8 +140,7 @@ ui <- fluidPage(
                                   
                                   radioButtons('model',
                                                'Which model do you want to use to calculate the average effect sizes?',
-                                               c("Correlated and Hierarchical Effects Model" = "che",
-                                                 "Correlated Effects Model" = "ce",
+                                               c("Correlated Effects Model" = "ce",
                                                  "Hierarchical Effects Model" = "he")),
                                   
                                   sliderInput("rho", "What value would you like to use for the within-study correlation between effect sizes?",
