@@ -1,6 +1,6 @@
 palette_OkabeIto <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
 
-make_egm_plot <- function(data, factors_n, xlabel, ylabel){
+make_egm_plot <- function(data, factors_n, xlabel, ylabel, colorlabel = ""){
 
   if(factors_n == "two"){
     
@@ -20,7 +20,7 @@ make_egm_plot <- function(data, factors_n, xlabel, ylabel){
                          size = n_studies, color = factor_3)) + 
       geom_point(alpha = 0.6, aes(group = factor_3), 
                  position = position_dodge(width= 0.5)) + 
-      labs(x = xlabel, y = ylabel, color = "") +
+      labs(x = xlabel, y = ylabel, color = colorlabel) +
       scale_size_identity() +
       scale_color_manual(values = palette_OkabeIto) +
       scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +

@@ -95,6 +95,13 @@ server <-
     
     updateTextInput(
       session,
+      inputId = "colorlabel",
+      label = "Please specify the label for the colors. If you do no want a label, please leave the box blank.",
+      value = ""
+    )
+    
+    updateTextInput(
+      session,
       inputId = "pname",
       label = "Download Plot: Please specify the name of the plot.",
       value = "egm_plot.png"
@@ -292,6 +299,12 @@ server <-
       
     })
     
+    colorlabel <- reactive({
+      
+      input$colorlabel
+      
+    })
+    
     
     output$noparam <- renderText({ "Please click the button below to output the data." })
     output$explain <- renderText({  
@@ -486,7 +499,7 @@ server <-
           
         } else if(input$num_factors == "three"){
           
-          p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel())
+          p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel(), colorlabel = colorlabel())
         }
         
       } else if(input$ex_upload == "up"){
@@ -499,7 +512,7 @@ server <-
             
           } else{
             
-            p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel())
+            p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel(), colorlabel = colorlabel())
           }
           
         } else if(input$summary_raw == "sumdat"){
@@ -510,7 +523,7 @@ server <-
             
           } else{
             
-            p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel())
+            p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel(), colorlabel = colorlabel())
           }
         }
         
@@ -731,7 +744,8 @@ server <-
                              args = list(#user_mod = input$model,
                                          user_rho = input$rho,
                                          user_x = input$xlabel,
-                                         user_y = input$ylabel)),
+                                         user_y = input$ylabel,
+                                         user_color = input$colorlabel)),
             ''
           )
 
@@ -804,7 +818,8 @@ server <-
                                  args = list(#user_mod = input$model,
                                              user_rho = input$rho,
                                              user_x = input$xlabel,
-                                             user_y = input$ylabel)),
+                                             user_y = input$ylabel,
+                                             user_color = input$colorlabel)),
                 ''
               )
             
@@ -883,7 +898,8 @@ server <-
             sum_dat <- c(
               parse_code_chunk("no_sum_three",
                                args = list(user_x = input$xlabel,
-                                           user_y = input$ylabel)),
+                                           user_y = input$ylabel,
+                                           user_color = input$colorlabel)),
               ''
             )
             
