@@ -482,7 +482,94 @@ server <-
     
     output$contents <- renderDataTable({
       
-      DT::datatable(datClean())
+      dat <- datClean()
+      
+      if(input$ex_upload == "example"){
+        
+        if(input$num_factors == "two"){
+          
+          dat <- dat %>%
+            rename(`Factor 1: x-axis` = factor_1, 
+                   `Factor 2: y-axis` = factor_2,
+                   `Estimation Method` = method,
+                   `Average Effect Size` = estimate, 
+                   `Number of Studies` = n_studies,
+                   `Number of Effect Sizes` = n_es)
+          
+        } else if(input$num_factors == "three"){
+          
+          dat <- dat %>%
+            rename(`Factor 1: x-axis` = factor_1, 
+                   `Factor 2: y-axis` = factor_2,
+                   `Factor 3: color` = factor_3,
+                   `Estimation Method` = method,
+                   `Average Effect Size` = estimate, 
+                   `Number of Studies` = n_studies,
+                   `Number of Effect Sizes` = n_es)
+          
+          
+        }
+        
+      } else if(input$ex_upload == "up") {
+        
+        if(input$summary_raw == "esdat"){
+          
+          if(input$z == "None"){
+            
+            dat <- dat %>%
+              rename(`Factor 1: x-axis` = factor_1, 
+                     `Factor 2: y-axis` = factor_2,
+                     `Estimation Method` = method,
+                     `Average Effect Size` = estimate, 
+                     `Number of Studies` = n_studies,
+                     `Number of Effect Sizes` = n_es)
+            
+          } else if(input$z != "None"){
+            
+            dat <- dat %>%
+              rename(`Factor 1: x-axis` = factor_1, 
+                     `Factor 2: y-axis` = factor_2,
+                     `Factor 3: color` = factor_3,
+                     `Estimation Method` = method,
+                     `Average Effect Size` = estimate, 
+                     `Number of Studies` = n_studies,
+                     `Number of Effect Sizes` = n_es)
+            
+          }
+          
+        } else if(input$summary_raw == "sumdat"){
+          
+          if(input$zsum == "None"){
+            
+            dat <- dat %>%
+              rename(`Factor 1: x-axis` = factor_1, 
+                     `Factor 2: y-axis` = factor_2,
+                     `Number of Studies` = n_studies)
+
+          } else if(input$zsum != "None"){
+            
+            dat <- dat %>%
+              rename(`Factor 1: x-axis` = factor_1, 
+                     `Factor 2: y-axis` = factor_2,
+                     `Factor 3: color` = factor_3,
+                     `Number of Studies` = n_studies)
+            
+            
+          }
+          
+          if(input$aves != "None"){
+            
+            dat <- dat %>%
+              rename(`Average Effect Size` = estimate)
+            
+          }
+          
+        }
+        
+        
+      }
+      
+      DT::datatable(dat)
       
     })
     
