@@ -188,8 +188,8 @@ ui <- fluidPage(
                                                                         "Average Effect Size" = "aves", 
                                                                         "Nothing" = "nothing"), 
                                                             selected = "nothing"),
-                                                textInput("xlabel", label = "Please specify the label for the x-axis.", value = ""),
-                                                textInput("ylabel", label = "Please specify the label for the y-axis.", value = ""),
+                                                textInput("xlabel", label = "Please specify the label for the x-axis. If you do no want a label, please leave the box blank.", value = ""),
+                                                textInput("ylabel", label = "Please specify the label for the y-axis. If you do no want a label, please leave the box blank.", value = ""),
                                                 actionButton("plot", "Create Plot")
                                                 
                                       ),
