@@ -308,7 +308,7 @@ server <-
     
     output$noparam <- renderText({ "Please click the button below to output the data." })
     output$explain <- renderText({  
-      paste0("For cells that have more than 2 studies, this app calculates the average effect sizes using correlated effects model to account for dependence.", 
+      paste0("For cells that have more than two studies, this app calculates the average effect sizes using correlated effects model to account for dependence.", 
              "\nFor cells that have less than or equal to two studies but have more than one effect size estimate, the app runs a univariate random effects model.",
              "\nFor cells that only have one effect size estimate, the app outputs the raw effect size estimate.")
     })
