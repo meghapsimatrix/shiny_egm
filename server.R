@@ -82,21 +82,21 @@ server <-
     updateTextInput(
       session,
       inputId = "xlabel",
-      label = "Please specify the label for the x-axis. If you do no want a label, please leave the box blank.",
+      label = "Please specify the label for the x-axis. Please leave the box blank if you do not want to label the axis.",
       value = ""
     )
     
     updateTextInput(
       session,
       inputId = "ylabel",
-      label = "Please specify the label for the y-axis. If you do no want a label, please leave the box blank.",
+      label = "Please specify the label for the y-axis. Please leave the box blank if you do not want to label the axis.",
       value = ""
     )
     
     updateTextInput(
       session,
       inputId = "colorlabel",
-      label = "Please specify the label for the colors. If you do no want a label, please leave the box blank.",
+      label = "Please specify the label for the colors. Please leave the box blank if you do not want to label the colors.",
       value = ""
     )
     

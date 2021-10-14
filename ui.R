@@ -188,15 +188,15 @@ ui <- fluidPage(
                                                                         "Average Effect Size" = "aves", 
                                                                         "Nothing" = "nothing"), 
                                                             selected = "nothing"),
-                                                textInput("xlabel", label = "Please specify the label for the x-axis. If you do no want a label, please leave the box blank.", value = ""),
-                                                textInput("ylabel", label = "Please specify the label for the y-axis. If you do no want a label, please leave the box blank.", value = ""),
+                                                textInput("xlabel", label = "Please specify the label for the x-axis. Please leave the box blank if you do not want to label the axis.", value = ""),
+                                                textInput("ylabel", label = "Please specify the label for the y-axis. Please leave the box blank if you do not want to label the axis.", value = ""),
                                                 
                                                 conditionalPanel(
                                                   condition = "input.ex_upload == 'example' & input.num_factors == 'three' ||
                                                                input.ex_upload == 'up' & input.summary_raw == 'esdat' & input.z !=  'None' ||
                                                                input.ex_upload == 'up' & input.summary_raw == 'sumdat' & input.zsum != 'None'",
                                                   
-                                                  textInput("colorlabel", label = "Please specify the label for the colors. If you do no want a label, please leave the box blank.", value = "")
+                                                  textInput("colorlabel", label = "Please specify the label for the colors. Please leave the box blank if you do not want to label the colors.", value = "")
                                                   
                                                 ),
                                                
