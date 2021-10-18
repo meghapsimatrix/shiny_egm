@@ -180,7 +180,7 @@ ui <- fluidPage(
               #          fluidRow(br(),br()),
               #          dataTableOutput("contents")),
               
-              tabPanel("Evidence Gap Map",
+              tabPanel("Create Evidence Gap Map",
                        
                        br(),
                        sidebarPanel("",

@@ -23,7 +23,7 @@ The following are instructions on how to navigate the app:
 
     -   For the example and effect size level data, users can input the ...
 
--   **Evidence Gap Map**
+-   **Create Evidence Gap Map**
 
     -   The Create Plot tab contains options to overlay the plot with number of studies, average effect size, or nothing (with the default being nothing). Further, users can add the labels for the x-axis, y-axis, and/or the color mapping.
 
