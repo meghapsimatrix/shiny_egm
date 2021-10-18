@@ -8,7 +8,12 @@ ui <- fluidPage(
   
   tabsetPanel(type = "tabs",
               
-              tabPanel("About"),
+              tabPanel("About",
+                       br(),
+                       navlistPanel(widths = c(3, 9),
+                                    tabPanel("Evidence Gap Maps", includeMarkdown("markdown_chunks/about.md")),
+                                    tabPanel("Instructions to Use the App", includeMarkdown("markdown_chunks/instructions.md"))
+                       )),
               
               tabPanel("Load Data",
                        br(),

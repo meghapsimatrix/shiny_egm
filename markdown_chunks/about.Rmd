@@ -1,0 +1,10 @@
+---
+title: "About"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Evidence Gap Maps (EGMs) provide a structured framework designed to identify where research has been conducted, and where more research needs to be conducted. 
