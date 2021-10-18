@@ -11,7 +11,7 @@ The following are instructions on how to navigate the app:
 
     -   The *example dataset* is from a meta-analysis conducted to examine interventions to decrease cyberbullying (Polanin et al., 2021). The data contains effect size, variance of the effect size, and three factors: outcome measure, type of treatment assignment, and school setting.
 
-    -   If users want to upload their own data, they can select whether to upload an effect size level data or a summary level data.
+    -   If users want to upload their own data, they can select whether to upload an effect size level data or a summary level data. Users can upload csv, tsv, txt, or xlsx files.
 
         -   *Effect size level data* refers to raw meta-analytic dataset with each row containing an effect size and data on variables like outcome measure, methodology, comparison type etc. related to that effect size.
 
@@ -21,7 +21,16 @@ The following are instructions on how to navigate the app:
 
 -   **Create Summary Data**
 
-    -   For the example and effect size level data, users can input the ...
+    -   For the example and effect size level data, users can select parameters to run meta-regression models. By default, the app will calculate the average effect sizes using correlated effects model for cells that have more than 2 studies. For cells
+        that have less than or equal to two studies, the app will run a univariate
+        random effects model. For cells that only have one effect size estimate, the
+        app outputs the raw effect size estimate. Users can select the value for the
+        within-study correlation between the effect sizes to be input in the correlated
+        effects model. Users can then click "Create Summary Data" button, which will
+        prompt the app to run meta-regression to calculate average effect sizes per
+        combination of factors as well as the number of studies and the number of
+        effect sizes per combination of factors.
+    -   For summary level data, users do not have to select any parameters and can view the data they uploaded.
 
 -   **Create Evidence Gap Map**
 
