@@ -40,7 +40,7 @@ tidy_meta <- function(dat,
     
     suppressWarnings(mod <- rma.uni(yi = es,
                                     vi = var,
-                                    data = dat))
+                                    data = dat)) # REML univariate random effects by default
     
     res <- tidy(mod) %>%
       dplyr::select(estimate, SE = std.error) %>%
