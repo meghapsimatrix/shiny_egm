@@ -13,7 +13,7 @@ The following are instructions on how to navigate the app:
 
     -   If users want to upload their own data, they can select whether to upload an effect size level data or a summary level data. Users can upload csv, tsv, txt, or xlsx files.
 
-        -   *Effect size level data* refers to raw meta-analytic dataset with each row containing an effect size and data on variables like outcome measure, methodology, comparison type etc. related to that effect size.
+        -   *Effect size level data* refers to raw meta-analytic dataset with each row containing an effect size and corresponding data on variables like outcome measure, methodology, comparison type etc.
 
         -   *Summary level data* refers to data that contains number of studies and/or average effect size aggregated for combination of factors.
 
