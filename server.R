@@ -31,6 +31,16 @@ server <-
       selected = "example"
     )
     
+    
+    updateRadioButtons(
+      session, 
+      inputId = 'num_factors', 
+      label = 'Do you want to use two factors or three factors for the EGM Plot?',
+      choices = c("Two Factors" = "two",
+                  "Three Factors" = "three"),
+      selected = "two"
+    )
+    
     updateRadioButtons(
       session, 
       inputId = 'sevar', 
