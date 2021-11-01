@@ -24,15 +24,6 @@ make_egm_plot <- function(data,
       
     }
   
-  
-    p <- p + 
-      labs(x = xlabel, y = ylabel) +
-      scale_size_identity() +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
-      scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
-      theme_minimal() + 
-      guides(size = "none") +
-      theme(legend.position = "bottom")
   }
   
   else if(factors_n == "three"){
@@ -58,15 +49,17 @@ make_egm_plot <- function(data,
         labs(color = colorlabel)
     }
     
-    p <- p + 
-      labs(x = xlabel, y = ylabel) +
-      scale_size_identity() +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
-      scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
-      theme_minimal() + 
-      guides(size = "none") +
-      theme(legend.position = "bottom")
+
   }
+  
+  p <- p + 
+    labs(x = xlabel, y = ylabel) +
+    scale_size_identity() +
+    scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+    scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
+    theme_minimal() + 
+    guides(size = "none") +
+    theme(legend.position = "bottom")
     
   return(p)
     
