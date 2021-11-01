@@ -59,8 +59,6 @@ make_egm_plot <- function(data,
     }
     
     p <- p + 
-      geom_point(alpha = 0.8, aes(group = factor_3), 
-                 position = position_dodge(width= 0.5)) + 
       labs(x = xlabel, y = ylabel) +
       scale_size_identity() +
       scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
