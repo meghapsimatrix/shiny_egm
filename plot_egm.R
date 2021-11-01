@@ -13,14 +13,14 @@ make_egm_plot <- function(data,
     if(es == TRUE){
       
       p <- ggplot(data, aes(x = factor_1, y = factor_2, size = n_studies, color = estimate)) +
-        geom_point(alpha = 0.8) + 
+        geom_point(alpha = 0.6) + 
         scale_color_viridis_c() +
         labs(color = "Average Effect Size")
       
     } else if (es == FALSE){
       
       p <- ggplot(data, aes(x = factor_1, y = factor_2, size = n_studies)) +
-        geom_point(alpha = 0.8, color = "skyblue") 
+        geom_point(alpha = 0.6, color = "skyblue") 
       
     }
   
@@ -41,7 +41,7 @@ make_egm_plot <- function(data,
       
       p <- ggplot(data, aes(x = factor_1, y = factor_2, 
                             size = n_studies, shape = factor_3, color = estimate)) +
-        geom_point(alpha = 0.8, aes(group = factor_3), 
+        geom_point(alpha = 0.6, aes(group = factor_3), 
                    position = position_dodge(width= 0.5))  +
         scale_color_viridis_c() +
         scale_shape_manual(values = c(16, 17, 15, 18, 3, 4, 7, 8)) +
@@ -52,7 +52,7 @@ make_egm_plot <- function(data,
       
       p <- ggplot(data, aes(x = factor_1, y = factor_2, 
                             size = n_studies, color = factor_3)) +
-        geom_point(alpha = 0.8, aes(group = factor_3), 
+        geom_point(alpha = 0.6, aes(group = factor_3), 
                    position = position_dodge(width= 0.5))  +
         scale_color_manual(values = palette_OkabeIto) +
         labs(color = colorlabel)
