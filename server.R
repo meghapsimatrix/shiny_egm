@@ -80,6 +80,14 @@ server <-
       min = 1, max = 15, value = 7
     )
     
+    updateSelectInput(
+      session,
+      inputId = "escolor", 
+      label = "Do you want to map average effect size onto a continous color?", 
+      choices = c("Yes" = "yes",
+                  "No" = "no"),
+      selected = "yes")
+    
 
     
     updateTextInput(
@@ -315,6 +323,13 @@ server <-
       
     })
     
+    shapelabel <- reactive({
+      
+      input$shapelabel
+      
+    })
+    
+    
     
     output$noparam <- renderText({ "Please click the button below to output the data." })
     output$explain <- renderText({  
@@ -511,7 +526,7 @@ server <-
           dat <- dat %>%
             rename(`Factor 1: x-axis` = factor_1, 
                    `Factor 2: y-axis` = factor_2,
-                   `Factor 3: color` = factor_3,
+                   `Factor 3` = factor_3,
                    `Estimation Method` = method,
                    `Average Effect Size` = estimate, 
                    `Number of Studies` = n_studies,
@@ -539,7 +554,7 @@ server <-
             dat <- dat %>%
               rename(`Factor 1: x-axis` = factor_1, 
                      `Factor 2: y-axis` = factor_2,
-                     `Factor 3: color` = factor_3,
+                     `Factor 3` = factor_3,
                      `Estimation Method` = method,
                      `Average Effect Size` = estimate, 
                      `Number of Studies` = n_studies,
@@ -561,7 +576,7 @@ server <-
             dat <- dat %>%
               rename(`Factor 1: x-axis` = factor_1, 
                      `Factor 2: y-axis` = factor_2,
-                     `Factor 3: color` = factor_3,
+                     `Factor 3` = factor_3,
                      `Number of Studies` = n_studies)
             
             
@@ -592,11 +607,47 @@ server <-
         
         if(input$num_factors == "two"){
           
-          p <- make_egm_plot(data = dat, factors_n = "two", xlabel = xlabel(), ylabel = ylabel())
+          if(input$escolor == "yes"){
+          
+          p <- make_egm_plot(data = dat, 
+                             factors_n = "two",
+                             es = TRUE,
+                             xlabel = xlabel(), 
+                             ylabel = ylabel())
+          
+          } else if(input$escolor == "no"){
+            
+            p <- make_egm_plot(data = dat, 
+                               factors_n = "two",
+                               es = FALSE,
+                               xlabel = xlabel(), 
+                               ylabel = ylabel())
+            
+            
+          }
           
         } else if(input$num_factors == "three"){
           
-          p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel(), colorlabel = colorlabel())
+          if(input$escolor == "yes"){ 
+            
+          p <-  make_egm_plot(data = dat, 
+                              factors_n = "three", 
+                              es = TRUE,
+                              xlabel = xlabel(), 
+                              ylabel = ylabel(),
+                              shapelabel = shapelabel())
+          
+          } else if(input$escolor == "no"){ 
+          
+          p <-  make_egm_plot(data = dat, 
+                              factors_n = "three", 
+                              es = FALSE,
+                              xlabel = xlabel(), 
+                              ylabel = ylabel(),
+                              colorlabel = colorlabel())
+          
+        }
+          
         }
         
       } else if(input$ex_upload == "up"){
@@ -605,22 +656,93 @@ server <-
           
           if(input$z == "None"){
             
-            p <-  make_egm_plot(data = dat, factors_n = "two", xlabel = xlabel(), ylabel = ylabel())
-            
+            if(input$escolor == "yes"){
+              
+              p <- make_egm_plot(data = dat, 
+                                 factors_n = "two",
+                                 es = TRUE,
+                                 xlabel = xlabel(), 
+                                 ylabel = ylabel())
+              
+            } else if(input$escolor == "no"){
+              
+              p <- make_egm_plot(data = dat, 
+                                 factors_n = "two",
+                                 es = FALSE,
+                                 xlabel = xlabel(), 
+                                 ylabel = ylabel())
+              
+              
+            }            
           } else{
             
-            p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel(), colorlabel = colorlabel())
-          }
+            if(input$escolor == "yes"){ 
+              
+              p <-  make_egm_plot(data = dat, 
+                                  factors_n = "three", 
+                                  es = TRUE,
+                                  xlabel = xlabel(), 
+                                  ylabel = ylabel(),
+                                  shapelabel = shapelabel())
+              
+            } else if(input$escolor == "no"){ 
+              
+              p <-  make_egm_plot(data = dat, 
+                                  factors_n = "three", 
+                                  es = FALSE,
+                                  xlabel = xlabel(), 
+                                  ylabel = ylabel(),
+                                  colorlabel = colorlabel())
+              
+            }          
           
-        } else if(input$summary_raw == "sumdat"){
-          
-          if(input$zsum == "None"){
+        } 
+          } else if(input$summary_raw == "sumdat"){
             
-            p <-  make_egm_plot(data = dat, factors_n = "two", xlabel = xlabel(), ylabel = ylabel())
+            if(input$zsum == "None"){
+              
+              if(input$escolor == "yes" & input$aves != "None"){
+                
+                p <- make_egm_plot(data = dat, 
+                                   factors_n = "two",
+                                   es = TRUE,
+                                   xlabel = xlabel(), 
+                                   ylabel = ylabel())
+                
+              } else if(input$escolor == "no" | input$aves == "None"){
+                
+                p <- make_egm_plot(data = dat, 
+                                   factors_n = "two",
+                                   es = FALSE,
+                                   xlabel = xlabel(), 
+                                   ylabel = ylabel())
+                
+                
+              }
+            }  else if(input$zsum != "None") {
+              
+              if(input$escolor == "yes" & input$aves != "None"){
+                
+                p <- make_egm_plot(data = dat, 
+                                   factors_n = "three",
+                                   es = TRUE,
+                                   xlabel = xlabel(), 
+                                   ylabel = ylabel(), 
+                                   shapelabel = shapelabel())
+                
+              } else if(input$escolor == "no" | input$aves == "None"){
+                
+                p <- make_egm_plot(data = dat, 
+                                   factors_n = "three",
+                                   es = FALSE,
+                                   xlabel = xlabel(), 
+                                   ylabel = ylabel(),
+                                   colorlabel = colorlabel())
+                
+                
+              }
+              
             
-          } else{
-            
-            p <-  make_egm_plot(data = dat, factors_n = "three", xlabel = xlabel(), ylabel = ylabel(), colorlabel = colorlabel())
           }
         }
         

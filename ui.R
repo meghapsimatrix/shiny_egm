@@ -186,6 +186,19 @@ ui <- fluidPage(
                        sidebarPanel("",
                                     tabsetPanel(
                                       tabPanel("Create Plot",
+                                               
+                                               conditionalPanel(
+                                                 condition = "input.ex_upload == 'example'||
+                                                               input.ex_upload == 'up' & input.summary_raw == 'esdat' ||
+                                                               input.ex_upload == 'up' & input.summary_raw == 'sumdat' & input.aves != 'None'",
+                                                 
+                                                 selectInput("escolor", 
+                                                             label = "Do you want to map average effect size onto a continous color?", 
+                                                             choices = c("Yes" = "yes",
+                                                                         "No" = "no"),
+                                                             selected = "yes"),
+                                                 
+                                               ),
                                     
                                                 selectInput("overlay", 
                                                             label = "What do you want to overlay on the dots?",
@@ -197,13 +210,22 @@ ui <- fluidPage(
                                                 textInput("ylabel", label = "Please specify the label for the y-axis. Please leave the box blank if you do not want to label the axis.", value = ""),
                                                 
                                                 conditionalPanel(
-                                                  condition = "input.ex_upload == 'example' & input.num_factors == 'three' ||
-                                                               input.ex_upload == 'up' & input.summary_raw == 'esdat' & input.z !=  'None' ||
-                                                               input.ex_upload == 'up' & input.summary_raw == 'sumdat' & input.zsum != 'None'",
+                                                  condition = "input.ex_upload == 'example' & input.num_factors == 'three' & input.escolor == 'no'||
+                                                               input.ex_upload == 'up' & input.summary_raw == 'esdat' & input.z !=  'None' & input.escolor == 'no' ||
+                                                               input.ex_upload == 'up' & input.summary_raw == 'sumdat' & input.zsum != 'None' & input.escolor == 'no'",
                                                   
                                                   textInput("colorlabel", label = "Please specify the label for the colors. Please leave the box blank if you do not want to label the colors.", value = "")
                                                   
                                                 ),
+                                               
+                                               conditionalPanel(
+                                                 condition = "input.ex_upload == 'example' & input.num_factors == 'three' & input.escolor == 'yes' ||
+                                                              input.ex_upload == 'up' & input.summary_raw == 'esdat' & input.z !=  'None' & input.escolor == 'yes' ||
+                                                              input.ex_upload == 'up' & input.summary_raw == 'sumdat' & input.zsum != 'None' & input.escolor == 'yes'",
+                                                 
+                                                 textInput("shapelabel", label = "Please specify the label for the shapes. Please leave the box blank if you do not want to label the colors.", value = "")
+                                                 
+                                               ),
                                                
                                                
                                                 actionButton("plot", "Create Plot")
