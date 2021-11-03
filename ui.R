@@ -206,6 +206,7 @@ ui <- fluidPage(
                                                                         "Average Effect Size" = "aves", 
                                                                         "Nothing" = "nothing"), 
                                                             selected = "nothing"),
+                                               
                                                 textInput("xlabel", label = "Please specify the label for the x-axis. Please leave the box blank if you do not want to label the axis.", value = ""),
                                                 textInput("ylabel", label = "Please specify the label for the y-axis. Please leave the box blank if you do not want to label the axis.", value = ""),
                                                 

@@ -67,3 +67,28 @@ output$egmPlot <- renderPlot({
 })
 
 
+xlab <- renderText({
+  
+  if(input$ex_upload == "example") {
+    
+    "Design"
+    
+  }
+  else if(input$ex_upload == "up"){
+    
+    if(input$summary_raw == "esdat"){
+      
+      input$x
+      
+    } else if(input$summary_raw == "sum"){
+      
+      input$xsum
+      
+    }
+    
+  }
+  
+  
+})
+
+
