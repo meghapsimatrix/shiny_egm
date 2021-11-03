@@ -1,6 +1,6 @@
 # Create EGM plot ---------------------------------------------------------
 
-p <- ggplot(data, aes(x = factor_1, y = factor_2, size = n_studies, color = estimate)) +
+p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies, color = estimate)) +
   geom_point(alpha = 0.6) + 
   scale_color_viridis_c() +
   labs(x = "{user_x}", y = "{user_y}", color = "Average Effect Size") +

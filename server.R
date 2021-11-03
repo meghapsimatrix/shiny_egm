@@ -880,19 +880,20 @@ server <-
     
     egm_syntax <- reactive({
       
-      header_res <- c(
-        '# Load packages',
-        'library(tidyverse)',
-        'library(metafor)',
-        'library(robumeta)',
-        'library(clubSandwich)',
-        'library(estimatr)',
-        ''
-      )
-      
       # read in file code
       
       if(input$ex_upload == "example") {
+        
+        header_res <- c(
+          '# Load packages',
+          'library(tidyverse)',
+          'library(metafor)',
+          'library(robumeta)',
+          'library(clubSandwich)',
+          'library(estimatr)',
+          ''
+        )
+        
         
         read_res <- c(
           parse_code_chunk("load_example", args = list(path = "https://raw.githubusercontent.com/meghapsimatrix/shiny_egm/main/example/example_dat_clean.csv")),
@@ -903,6 +904,12 @@ server <-
         
         if(input$dat_type == "dat"){
           
+        header_res <- c(
+            '# Load packages',
+            'library(tidyverse)',
+            'library(janitor)'
+          )
+          
         inFile <- input$dat
         
         read_res <- c(
@@ -912,6 +919,13 @@ server <-
           ''
         )
       } else if (input$dat_type == "xlsx") {
+        
+        header_res <- c(
+          '# Load packages',
+          'library(tidyverse)',
+          'library(janitor)',
+          'library(readxl)'
+        )
         
         inFile <- input$xlsx
         
@@ -929,6 +943,7 @@ server <-
 
 
         if(input$num_factors == "two"){
+          
 
           clean_dat <- c(
             parse_code_chunk("dat_example_two",
@@ -1012,6 +1027,13 @@ server <-
       } else if(input$ex_upload == "up"){
         
         if(input$summary_raw == "esdat"){
+          
+         header_res <- c(header_res,
+                         c('library(metafor)',
+                           'library(robumeta)',
+                           'library(clubSandwich)',
+                           'library(estimatr)',
+                           ''))
           
           es <- input$effectsize
           var <- input$variance
@@ -1128,6 +1150,9 @@ server <-
         }
         
         else if(input$summary_raw == "sumdat"){
+          
+          header_res <- c(header_res,
+                          c(''))
           
           factor_1 <- input$xsum
           factor_2 <- input$ysum

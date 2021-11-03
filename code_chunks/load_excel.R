@@ -1,9 +1,5 @@
 # Load data and clean -----------------------------------------------------
 
-# Load data
-library(readxl)
-library(janitor)
-
 dat <- 
   read_excel(path = "{user_path}", sheet = 1) %>% # Modify the path to the full location of your file
   clean_names(case = "parsed")
