@@ -939,12 +939,31 @@ server <-
           
           sum_dat <- c(
             parse_code_chunk("summarize_two",
-                             args = list(#user_mod = input$model,
-                                         user_rho = input$rho,
-                                         user_x = input$xlabel,
-                                         user_y = input$ylabel)),
+                             args = list(user_rho = input$rho)),
             ''
           )
+          
+          
+          if(input$escolor == "yes"){
+            
+            plot_code <- c(
+              parse_code_chunk("plot_es_two",
+                                args = list(user_x = input$xlabel,
+                                            user_y = input$ylabel)),
+              ''
+            )
+            
+          }  else if(input$escolor == "no"){
+            
+            
+            plot_code <- c(
+              parse_code_chunk("plot_two",
+                               args = list(user_x = input$xlabel,
+                                           user_y = input$ylabel)),
+              ''
+            )
+            
+          }
           
           
 
@@ -959,16 +978,37 @@ server <-
           
           sum_dat <- c(
             parse_code_chunk("summarize_three",
-                             args = list(#user_mod = input$model,
-                                         user_rho = input$rho,
-                                         user_x = input$xlabel,
+                             args = list(user_rho = input$rho)),
+            ''
+          )
+        
+        
+        if(input$escolor == "yes"){
+          
+          plot_code <- c(
+            parse_code_chunk("plot_es_three",
+                             args = list(user_x = input$xlabel,
+                                         user_y = input$ylabel,
+                                         user_shape = input$shapelabel)),
+            ''
+          )
+          
+        }  else if(input$escolor == "no"){
+          
+          
+          plot_code <- c(
+            parse_code_chunk("plot_three",
+                             args = list(user_x = input$xlabel,
                                          user_y = input$ylabel,
                                          user_color = input$colorlabel)),
             ''
           )
-
+          
         }
+        
 
+      } 
+        
       } else if(input$ex_upload == "up"){
         
         if(input$summary_raw == "esdat"){
@@ -1002,12 +1042,32 @@ server <-
             
             sum_dat <- c(
               parse_code_chunk("summarize_two",
-                               args = list(#user_mod = input$model,
-                                           user_rho = input$rho,
-                                           user_x = input$xlabel,
-                                           user_y = input$ylabel)),
+                               args = list(user_rho = input$rho)),
               ''
             )
+            
+            
+            if(input$escolor == "yes"){
+              
+              plot_code <- c(
+                parse_code_chunk("plot_es_two",
+                                 args = list(user_x = input$xlabel,
+                                             user_y = input$ylabel)),
+                ''
+              )
+              
+            }  else if(input$escolor == "no"){
+              
+              
+              plot_code <- c(
+                parse_code_chunk("plot_two",
+                                 args = list(user_x = input$xlabel,
+                                             user_y = input$ylabel)),
+                ''
+              )
+              
+            }
+            
             
           }
           
@@ -1033,13 +1093,33 @@ server <-
               
               sum_dat <- c(
                 parse_code_chunk("summarize_three",
-                                 args = list(#user_mod = input$model,
-                                             user_rho = input$rho,
-                                             user_x = input$xlabel,
-                                             user_y = input$ylabel,
-                                             user_color = input$colorlabel)),
+                                 args = list(user_rho = input$rho)),
                 ''
               )
+              
+              
+              if(input$escolor == "yes"){
+                
+                plot_code <- c(
+                  parse_code_chunk("plot_es_three",
+                                   args = list(user_x = input$xlabel,
+                                               user_y = input$ylabel,
+                                               user_shape = input$shapelabel)),
+                  ''
+                )
+                
+              }  else if(input$escolor == "no"){
+                
+                
+                plot_code <- c(
+                  parse_code_chunk("plot_three",
+                                   args = list(user_x = input$xlabel,
+                                               user_y = input$ylabel,
+                                               user_color = input$colorlabel)),
+                  ''
+                )
+                
+              }
             
             
             
@@ -1079,11 +1159,31 @@ server <-
             }
             
             sum_dat <- c(
-              parse_code_chunk("no_sum_two",
-                               args = list(user_x = input$xlabel,
-                                           user_y = input$ylabel)),
+              parse_code_chunk("no_sum",
+                               args = list(user_params = NULL)),
               ''
             )
+            
+            if(input$escolor == "yes"){
+              
+              plot_code <- c(
+                parse_code_chunk("plot_es_two",
+                                 args = list(user_x = input$xlabel,
+                                             user_y = input$ylabel)),
+                ''
+              )
+              
+            }  else if(input$escolor == "no"){
+              
+              
+              plot_code <- c(
+                parse_code_chunk("plot_two",
+                                 args = list(user_x = input$xlabel,
+                                             user_y = input$ylabel)),
+                ''
+              )
+              
+            }
             
 
             
@@ -1114,12 +1214,33 @@ server <-
             }
             
             sum_dat <- c(
-              parse_code_chunk("no_sum_three",
-                               args = list(user_x = input$xlabel,
-                                           user_y = input$ylabel,
-                                           user_color = input$colorlabel)),
+              parse_code_chunk("no_sum",
+                               args = list(user_params = NULL)),
               ''
-            )
+            )            
+            
+            if(input$escolor == "yes"){
+              
+              plot_code <- c(
+                parse_code_chunk("plot_es_three",
+                                 args = list(user_x = input$xlabel,
+                                             user_y = input$ylabel,
+                                             user_shape = input$shapelabel)),
+                ''
+              )
+              
+            }  else if(input$escolor == "no"){
+              
+              
+              plot_code <- c(
+                parse_code_chunk("plot_three",
+                                 args = list(user_x = input$xlabel,
+                                             user_y = input$ylabel,
+                                             user_color = input$colorlabel)),
+                ''
+              )
+              
+            }
             
             
           }
@@ -1299,9 +1420,9 @@ server <-
         
       
       if(input$sevar == "se"){
-      res <- c(header_res, read_res, clean_dat, se_dat, sum_dat)
+      res <- c(header_res, read_res, clean_dat, se_dat, sum_dat, plot_code)
       } else{
-      res <- c(header_res, read_res, clean_dat, sum_dat)
+      res <- c(header_res, read_res, clean_dat, sum_dat, plot_code)
       }
       
       if(input$overlay == "nstudy"){
