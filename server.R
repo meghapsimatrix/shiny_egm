@@ -1172,17 +1172,6 @@ server <-
               ''
             )
             
-            } else if(input$aves == "None"){
-              
-              clean_dat <- c(
-                parse_code_chunk("clean_input_sum_dat_two",
-                                 args = list(user_params = paste(c(factor_1, factor_2, n_studies), 
-                                                                 collapse = '", "'))),
-                ''
-              )
-              
-            }
-            
             sum_dat <- c(
               parse_code_chunk("no_sum",
                                args = list(user_params = NULL)),
@@ -1210,6 +1199,36 @@ server <-
               
             }
             
+            
+            
+            } else if(input$aves == "None"){
+              
+              clean_dat <- c(
+                parse_code_chunk("clean_input_sum_dat_two",
+                                 args = list(user_params = paste(c(factor_1, factor_2, n_studies), 
+                                                                 collapse = '", "'))),
+                ''
+              )
+              
+              sum_dat <- c(
+                parse_code_chunk("no_sum",
+                                 args = list(user_params = NULL)),
+                ''
+              )
+              
+              
+              plot_code <- c(
+                parse_code_chunk("plot_two",
+                                 args = list(user_x = input$xlabel,
+                                             user_y = input$ylabel)),
+                ''
+              )
+              
+            }
+            
+
+
+            
 
             
           } else if(input$zsum != "None"){
@@ -1227,6 +1246,37 @@ server <-
                 ''
               )
               
+              
+              sum_dat <- c(
+                parse_code_chunk("no_sum",
+                                 args = list(user_params = NULL)),
+                ''
+              )   
+              
+              if(input$escolor == "yes"){
+                
+                plot_code <- c(
+                  parse_code_chunk("plot_es_three",
+                                   args = list(user_x = input$xlabel,
+                                               user_y = input$ylabel,
+                                               user_shape = input$shapelabel)),
+                  ''
+                )
+                
+              }  else if(input$escolor == "no"){
+                
+                
+                plot_code <- c(
+                  parse_code_chunk("plot_three",
+                                   args = list(user_x = input$xlabel,
+                                               user_y = input$ylabel,
+                                               user_color = input$colorlabel)),
+                  ''
+                )
+                
+              }
+              
+              
             } else if(input$aves == "None"){
               
               clean_dat <- c(
@@ -1236,26 +1286,12 @@ server <-
                 ''
               )
               
-            }
-            
-            sum_dat <- c(
-              parse_code_chunk("no_sum",
-                               args = list(user_params = NULL)),
-              ''
-            )            
-            
-            if(input$escolor == "yes"){
               
-              plot_code <- c(
-                parse_code_chunk("plot_es_three",
-                                 args = list(user_x = input$xlabel,
-                                             user_y = input$ylabel,
-                                             user_shape = input$shapelabel)),
+              sum_dat <- c(
+                parse_code_chunk("no_sum",
+                                 args = list(user_params = NULL)),
                 ''
               )
-              
-            }  else if(input$escolor == "no"){
-              
               
               plot_code <- c(
                 parse_code_chunk("plot_three",
@@ -1266,6 +1302,10 @@ server <-
               )
               
             }
+            
+          
+            
+
             
             
           }
