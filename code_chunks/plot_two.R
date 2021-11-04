@@ -1,6 +1,6 @@
 # Create EGM plot ---------------------------------------------------------
 
-p <- ggplot(dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
+p <- ggplot(summary_dat, aes(x = factor_1, y = factor_2, size = n_studies)) + 
   geom_point(alpha = 0.6, color = "skyblue") + 
   labs(x = "{user_x}", y = "{user_y}") +
   scale_size_identity() +

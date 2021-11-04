@@ -1,7 +1,7 @@
 # Create EGM plot ---------------------------------------------------------
 
 
-p <- ggplot(dat, aes(x = factor_1, y = factor_2, 
+p <- ggplot(summary_dat, aes(x = factor_1, y = factor_2, 
                       size = n_studies, shape = factor_3, color = estimate)) +
   geom_point(alpha = 0.6, aes(group = factor_3), 
              position = position_dodge(width= 0.5))  +

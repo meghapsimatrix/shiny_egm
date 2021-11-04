@@ -3,7 +3,7 @@
 # from colorblindr package https://github.com/clauswilke/colorblindr
 palette_OkabeIto <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
 
-p <- ggplot(dat, aes(x = factor_1, y = factor_2, 
+p <- ggplot(summary_dat, aes(x = factor_1, y = factor_2, 
                              size = n_studies, color = factor_3)) + 
   geom_point(alpha = 0.6, aes(group = factor_3), 
              position = position_dodge(width= 0.5)) + 
