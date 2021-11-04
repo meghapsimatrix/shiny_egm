@@ -13,4 +13,5 @@ p <- ggplot(summary_dat, aes(x = factor_1, y = factor_2,
   scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
   scale_y_discrete(labels = function(x) str_wrap(x, width = 10)) +
   theme_minimal() +
+  guides(size = "none") +
   theme(legend.position = "bottom")
