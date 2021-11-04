@@ -878,7 +878,7 @@ server <-
     
     # This part doesn't work yet!
     
-    egm_syntax <- reactive({
+    egm_syntax <-  eventReactive(input$plot, {
       
       # read in file code
       
