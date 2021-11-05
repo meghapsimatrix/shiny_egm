@@ -37,7 +37,7 @@ The following are instructions on how to navigate the app:
 
 -   **Create Evidence Gap Map**
 
-    -   The Create Plot tab contains options to overlay the plot with number of studies, average effect size, or nothing (with the default being nothing). Further, users can add informative labels for the x-axis, y-axis, and/or the color mapping. Users can click the "Create Plot" button to generate the plot.
+    -   The Create Plot tab contains options to map average effect size on color if applicable, and options to overlay the plot with number of studies, average effect size, or nothing (with the default being nothing). Further, users can add informative labels for the x-axis, y-axis, and/or the color and shape mapping. Users can click the "Create Plot" button to generate the plot.
 
     -   The Download tab contains options to name of the image to be downloaded, and adjust height and the width of the figure. Users can click the "Download" button to download the graph.
 
