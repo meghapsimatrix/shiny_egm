@@ -1,0 +1,11 @@
+name: shiny_egm
+title:
+username:
+account: megha-joshi
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5082191
+bundleId: 5233139
+url: https://megha-joshi.shinyapps.io/shiny_egm/
+when: 1636484070.73756
+lastSyncTime: 1636484070.73758
