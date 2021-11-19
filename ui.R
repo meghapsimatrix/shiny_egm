@@ -1,3 +1,19 @@
+library(shiny)
+library(shinythemes)
+library(robumeta)
+library(DT)
+library(knitr)
+library(tidyverse)
+library(kableExtra)
+library(rclipboard)
+library(metafor)
+library(clubSandwich)
+library(janitor)
+library(estimatr)
+library(readxl)
+library(shinybusy)
+
+
 
 ui <- fluidPage(
   
