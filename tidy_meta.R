@@ -49,12 +49,12 @@ tidy_meta <- function(dat,
                                     vi = var,
                                     data = dat)) # REML univariate random effects by default
     
-    res <- tidy(mod) %>%
-      dplyr::select(estimate, SE = std.error) %>%
-      mutate(df = NA,
-             CI_L = mod$ci.lb,
-             CI_U = mod$ci.ub) %>%
-      mutate(method = "Univariate Random Effects")
+    res <- tibble(estimate = as.numeric(mod$beta),
+                  SE = mod$se,
+                  df = NA,
+                  CI_L = mod$ci.lb,
+                  CI_U = mod$ci.ub) %>%
+           mutate(method = "Univariate Random Effects")
     
   } 
   
@@ -65,3 +65,7 @@ tidy_meta <- function(dat,
   
   return(output)
 }
+
+
+
+
